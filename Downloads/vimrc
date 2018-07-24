@@ -1,0 +1,30 @@
+set number
+set pastetoggle=<F3>
+set hls
+set mouse=a
+filetype plugin on
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g'\"" | endif
+endif
+set colorcolumn=80
+highlight ColorColumn ctermbg=blue
+set tabstop=4 shiftwidth=4 expandtab
+
+call plug#begin( '~/.vim/plugged' )
+
+Plug 'itchyny/lightline.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-surround'
+Plug 'vim-scripts/c.vim'
+Plug 'Chiel92/vim-autoformat'
+Plug 'ntpeters/vim-better-whitespace'
+
+call plug#end()
+highlight ExtraWhitespace ctermbg=yellow
+set laststatus=2
+set noshowmode
+set autoindent
+map <F2> : g/^$/d
+let g:strip_whitespace_on_save=1
