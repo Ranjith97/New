@@ -22,20 +22,23 @@ void add_list(linked_t **head, char* id, char* tcp_name, char* ip_address, \
     temp2 = NULL;
     new_node = NULL;
 
-	new_node = malloc(sizeof(linked_t));
+	new_node = calloc(1,sizeof(linked_t));
 	if (new_node == NULL)
 	{
 		printf("Failed to insert element. Out of memory");
         exit(FAILURE);
 	}
-
+    printf("%s %s %s %d\n", id, tcp_name, ip_address, port);
     new_node->server_port = port;
-    new_node->uuid = (char*)malloc(strlen(id)*sizeof(char));
-    memcpy(new_node->uuid, &id, strlen(id));
-    new_node->name = (char*)malloc(strlen(tcp_name)*sizeof(char));
-    memcpy(new_node->name, &tcp_name, strlen(tcp_name));
-    new_node->ip = (char*)malloc(strlen(ip_address)*sizeof(char));
-    memcpy(new_node->ip, &ip_address, strlen(ip_address));
+    new_node->uuid = (char*)calloc(1, (strlen(id) + 1)*sizeof(char));
+    //new_node->uuid = strdup(id);
+    strcpy(new_node->uuid, id);
+    new_node->name = (char*)calloc(1, (strlen(tcp_name) + 1)*sizeof(char));
+    //new_node->name = strdup(tcp_name);
+    strcpy(new_node->name, tcp_name);
+    new_node->ip = (char*)calloc(1, (strlen(ip_address) + 1)*sizeof(char));
+    //new_node->ip = strdup(ip_address);
+    strcpy(new_node->ip, ip_address);
     new_node->next = *head;
     *head = new_node;
 
@@ -61,9 +64,11 @@ void add_list(linked_t **head, char* id, char* tcp_name, char* ip_address, \
     /*while(loop) {
         fwrite(head, sizeof(linked_t), 1, fp);
         loop = loop->next;
-    } */
-    fprintf(fp, "uuid = %s name = %s ip = %s port no = %d\n", id,
-            tcp_name, ip_address, port);
+        } */
+    for (; new_node != NULL; new_node = new_node->next) {
+        fprintf(fp, "uuid = %s name = %s ip = %s port no = %d\n", new_node->uuid,
+                new_node->name, new_node->ip, new_node->server_port);
+    }
     fclose(fp);
     printf("The list is entered correctly.\n");
 }
