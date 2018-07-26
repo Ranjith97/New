@@ -31,7 +31,6 @@ struct Node {
     char* name;
     char* ip;
     int server_port;
-    struct Node *next;
 };
 linked_t *head, *temp, *new_node, *loop;
 
