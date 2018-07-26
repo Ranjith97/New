@@ -15,20 +15,18 @@ void add_list(linked_t **head, char* id, char* tcp_name, char* ip_address, \
               int port)
 {
     FILE *fp;
-    linked_t *temp1, *temp2;
+    char str[100], id1[50];
 
     temp = NULL;
-    temp1 = NULL;
-    temp2 = NULL;
     new_node = NULL;
 
 	new_node = calloc(1,sizeof(linked_t));
+	temp = calloc(1,sizeof(linked_t));
 	if (new_node == NULL)
 	{
 		printf("Failed to insert element. Out of memory");
         exit(FAILURE);
 	}
-    printf("%s %s %s %d\n", id, tcp_name, ip_address, port);
     new_node->server_port = port;
     new_node->uuid = (char*)calloc(1, (strlen(id) + 1)*sizeof(char));
     strcpy(new_node->uuid, id);
@@ -37,20 +35,26 @@ void add_list(linked_t **head, char* id, char* tcp_name, char* ip_address, \
     new_node->ip = (char*)calloc(1, (strlen(ip_address) + 1)*sizeof(char));
     strcpy(new_node->ip, ip_address);
 
+    fp=fopen("tcpserver.txt", "a+");
+    if (fp == NULL) {
+        fprintf(stderr,"Error opening file.\n");
+        exit(FAILURE);
+    }
     if (fgets(str,100,fp) == SUCCESS) return;
     while(fgets(str,100,fp) != SUCCESS) {
-        sscanf(str,"uuid = %s\n",temp->uuid);
-            if(strcmp(temp->uuid, new_node->uuid) == SUCCESS) {
-                printf("There is already an element with this uuid.\n");
-                exit(FAILURE);
-            }
+        sscanf(str,"uuid = %s\n",id1);
+        temp->uuid = (char*)calloc(1, (strlen(id1) + 1)*sizeof(char*));
+        strcpy(temp->uuid, id1);
+        if(strcmp(temp->uuid, new_node->uuid) == SUCCESS) {
+            printf("There is already an element with this uuid.\n");
+            exit(FAILURE);
         }
     }
 
-    loop = *head;
-    fp=fopen("tcpserver.txt", "a");
     fprintf(fp, "uuid = %s name = %s ip = %s port no = %d\n", new_node->uuid,
             new_node->name, new_node->ip, new_node->server_port);
     fclose(fp);
     printf("The list is entered correctly.\n");
+    free(temp);
+    free(new_node);
 }

@@ -16,8 +16,7 @@ void read_list(linked_t *head, char *ip_address, int port)
     char id[50], tcp_name[10], ip1[20], str[100];
     int port1;
 
-    temp = malloc(sizeof(linked_t));
-    temp = head;
+    temp = calloc(1,sizeof(linked_t));
     flag = 1;
     fp = fopen("tcpserver.txt", "r");
     if (fp == NULL)
@@ -47,4 +46,5 @@ void read_list(linked_t *head, char *ip_address, int port)
         exit(FAILURE);
     }
     fclose(fp);
+    free(temp);
 }
