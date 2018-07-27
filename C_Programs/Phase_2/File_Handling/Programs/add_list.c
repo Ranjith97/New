@@ -11,22 +11,32 @@
 
 #include"File_handling.h"
 
-void add_list(linked_t **head, char* id, char* tcp_name, char* ip_address, \
-              int port)
+/**
+ * @function       : add_list
+ * @param1         : uuid
+ * @param2         : tcp name
+ * @param3         : ip address
+ * @param4         : port number
+ * @brief          : This function will add the uuid, name, ip address and
+ *                   server port number to the file and also checks if the
+ *                   given entry is already present in the list or not
+ * @caller         : main
+ */
+void add_list(char* id, char* tcp_name, char* ip_address, int port)
 {
-    FILE *fp;
-    char str[100], id1[50];
-
     temp = NULL;
     new_node = NULL;
+    uid[0] = '\0';
 
-	new_node = calloc(1,sizeof(linked_t));
-	temp = calloc(1,sizeof(linked_t));
-	if (new_node == NULL)
-	{
-		printf("Failed to insert element. Out of memory");
+    new_node = calloc(1, sizeof(linked_t));
+    temp = calloc(1, sizeof(linked_t));
+    if (new_node == NULL)
+    {
+        printf("Failed to insert element. Out of memory");
+        free(temp);
+        free(new_node);
         exit(FAILURE);
-	}
+    }
     new_node->server_port = port;
     new_node->uuid = (char*)calloc(1, (strlen(id) + 1)*sizeof(char));
     strcpy(new_node->uuid, id);
@@ -38,23 +48,28 @@ void add_list(linked_t **head, char* id, char* tcp_name, char* ip_address, \
     fp=fopen("tcpserver.txt", "a+");
     if (fp == NULL) {
         fprintf(stderr,"Error opening file.\n");
+        free(temp);
+        free(new_node);
         exit(FAILURE);
     }
-    if (fgets(str,100,fp) == SUCCESS) return;
-    while(fgets(str,100,fp) != SUCCESS) {
-        sscanf(str,"uuid = %s\n",id1);
-        temp->uuid = (char*)calloc(1, (strlen(id1) + 1)*sizeof(char*));
-        strcpy(temp->uuid, id1);
+    /* Checking if the new entry is already present in the list or not */
+    if (fgets(str, STR_LENGTH, fp) == SUCCESS) return;
+    while(fgets(str, STR_LENGTH, fp) != SUCCESS) {
+        sscanf(str,"uuid = %s\n",uid);
+        temp->uuid = (char*)calloc(1, (strlen(uid) + 1)*sizeof(char*));
+        strcpy(temp->uuid, uid);
         if(strcmp(temp->uuid, new_node->uuid) == SUCCESS) {
             printf("There is already an element with this uuid.\n");
+            free(temp);
+            free(new_node);
             exit(FAILURE);
         }
     }
-
-    fprintf(fp, "uuid = %s name = %s ip = %s port no = %d\n", new_node->uuid,
+    /* Writing the given entry to the file */
+    fprintf(fp, "uuid = %s name = %s ip = %s port = %d\n", new_node->uuid,
             new_node->name, new_node->ip, new_node->server_port);
     fclose(fp);
-    printf("The list is entered correctly.\n");
+    printf("The entry is added to the file correctly.\n");
     free(temp);
     free(new_node);
 }

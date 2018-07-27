@@ -11,10 +11,26 @@
 
 #include"File_handling.h"
 
-void del_list(linked_t **head, char *tcp_name, char *ip_address, int port)
+/**
+ * @function       : del_list
+ * @param1         : tcp name
+ * @param2         : ip address
+ * @param3         : port number
+ * @brief          : This function will check if the given entry is present in
+ *                   the list or not and deletes that particular entry if it is
+ *                   present
+ * @caller         : main
+ */
+void del_list(char *tcp_name, char *ip_address, int port)
 {
-    FILE *fp, *fp1;
-    temp = *head;
+    FILE *fp1;
+
+    port1 = 0;
+    uid[0] = '\0';
+    uname[0] = '\0';
+    ip_addr[0] = '\0';
+
+    temp = calloc(1, sizeof(linked_t));
     flag = 1;
     fp = fopen("tcpserver.txt", "r");
     fp1 = fopen("sample.txt", "a");
@@ -23,18 +39,37 @@ void del_list(linked_t **head, char *tcp_name, char *ip_address, int port)
         fprintf(stderr, "Error opening file.\n");
         exit(FAILURE);
     }
-    while(fread(&temp, sizeof(temp), 1, fp)) {
+    /* Checking if the entry is present in the list */
+    while(fgets(str, STR_LENGTH, fp) != SUCCESS) {
+        sscanf(str,"uuid = %s name = %s ip = %s port = %d\n", uid, uname, \
+                ip_addr, &port1);
+        temp->uuid = (char*)calloc(1, (strlen(uid) + 1)*sizeof(char*));
+        strcpy(temp->uuid, uid);
+        temp->name = (char*)calloc(1, (strlen(uname) + 1)*sizeof(char*));
+        strcpy(temp->name, uname);
+        temp->ip = (char*)calloc(1, (strlen(ip_addr) + 1)*sizeof(char*));
+        strcpy(temp->ip, ip_addr);
+        temp->server_port = port1;
         if ((strcmp(temp->ip, ip_address) == SUCCESS) && \
-            (temp->server_port == port) && \
-            (strcmp(temp->name, tcp_name) == SUCCESS)) {
+                (temp->server_port == port) && \
+                (strcmp(temp->name, tcp_name) == SUCCESS)) {
             flag = 0;
         }
+        /* Writing the contents of the file which not matches with the entry
+         * to another file */
         else {
-            fwrite(&temp, sizeof(linked_t), 1, fp1);
+            fprintf(fp1, "uuid = %s name = %s ip = %s port = %d\n", temp->uuid,\
+                    temp->name, temp->ip, temp->server_port);
         }
     }
-    if (flag == SUCCESS) {
+
+    if (flag != SUCCESS) {
         printf("There is no such data present in the list.\n");
+        fclose(fp);
+        fclose(fp1);
+        remove("tcpserver.txt");
+        rename("sample.txt", "tcpserver.txt");
+        free(temp);
         exit(FAILURE);
     }
     fclose(fp);
@@ -42,4 +77,5 @@ void del_list(linked_t **head, char *tcp_name, char *ip_address, int port)
     remove("tcpserver.txt");
     rename("sample.txt", "tcpserver.txt");
     printf("The data is removed successfully.\n");
+    free(temp);
 }

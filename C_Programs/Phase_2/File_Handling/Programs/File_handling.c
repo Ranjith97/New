@@ -1,7 +1,6 @@
 /**
  * @file            : File_handling.c
  * @brief           :
- * @author          : Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
  * @Copyright(c)    : 2012-2013 , VVDN Technologies Pvt. Ltd. Permission is
  *                    hereby granted to everyone in VVDN Technologies to use
  *                    the Software without restriction, including without
@@ -26,7 +25,6 @@ int main ( int argc, char *argv[] )
     option = 0;
     opterr = 0;
     long_index = 0;
-    head = NULL;
 
     static struct option long_option[] = {
         {"add", no_argument, 0 , 'a'},
@@ -86,14 +84,14 @@ int main ( int argc, char *argv[] )
     }
     if ((do_add == SUCCESS) && (ip == SUCCESS) && (id == SUCCESS) && \
             (name == SUCCESS) && (port != FALSE)) {
-        add_list(&head, uid, tcp_name, ip_address, port);
+        add_list(uid, tcp_name, ip_address, port);
     }
     else if((do_read == SUCCESS) && (ip == SUCCESS) && (port != FALSE)) {
-        read_list(head, ip_address, port);
+        read_list(ip_address, port);
     }
     else if((do_delete == SUCCESS) && (name == SUCCESS) && (ip == SUCCESS) && \
             (port != FALSE)) {
-        del_list(&head, tcp_name, ip_address, port);
+        del_list(tcp_name, ip_address, port);
     }
     else {
         printf("There is error in argument passing or there is error in the"

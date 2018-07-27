@@ -10,11 +10,21 @@
  */
 #include"File_handling.h"
 
-void read_list(linked_t *head, char *ip_address, int port)
+/**
+ * @function       : read_list
+ * @param1         : ip_address entered by the user
+ * @param2         : port number entered by the user
+ * @brief          : The function will check if the given ip_address and port
+ *                   number is present in the list or not and prints the details
+ *                   if the entry is present in the list
+ * @caller         : main
+ */
+void read_list(char *ip_address, int port)
 {
-    FILE *fp;
-    char id[50], tcp_name[10], ip1[20], str[100];
-    int port1;
+    port1 = 0;
+    uid[0] = '\0';
+    uname[0] = '\0';
+    ip_addr[0] = '\0';
 
     temp = calloc(1,sizeof(linked_t));
     flag = 1;
@@ -24,16 +34,17 @@ void read_list(linked_t *head, char *ip_address, int port)
         fprintf(stderr, "Error opening file.\n");
         exit(FAILURE);
     }
-    while(fgets(str,100,fp) != 0) {
-        sscanf(str,"uuid = %s name = %s ip = %s port no = %d\n", id, tcp_name,
-                ip1, &port1);
+    while(fgets(str, STR_LENGTH, fp) != SUCCESS) {
+        sscanf(str,"uuid = %s name = %s ip = %s port no = %d\n", uid, uname,
+                ip_addr, &port1);
         temp->server_port = port1;
-        temp->uuid = (char*) calloc(1, (strlen(id) + 1) * sizeof(char*));
-        strcpy(temp->uuid, id);
-        temp->name = (char*) calloc(1, (strlen(tcp_name) + 1) * sizeof(char*));
-        strcpy(temp->name, tcp_name);
-        temp->ip = (char*) calloc(1, (strlen(ip1) + 1) * sizeof(char*));
-        strcpy(temp->ip, ip1);
+        temp->uuid = (char*) calloc(1, (strlen(uid) + 1) * sizeof(char*));
+        strcpy(temp->uuid, uid);
+        temp->name = (char*) calloc(1, (strlen(uname) + 1) * sizeof(char*));
+        strcpy(temp->name, uname);
+        temp->ip = (char*) calloc(1, (strlen(ip_addr) + 1) * sizeof(char*));
+        strcpy(temp->ip, ip_addr);
+        /* Checking for the given ip_address and port no in the list */
         if ((strcmp(temp->ip, ip_address) == SUCCESS) && \
                 (temp->server_port == port)) {
             printf("UUID = %s\nName = %s\nIP address = %s\nServer port = %d\n",\
@@ -43,6 +54,7 @@ void read_list(linked_t *head, char *ip_address, int port)
     }
     if (flag != SUCCESS) {
         printf("There is no such data present in the list.\n");
+        free(temp);
         exit(FAILURE);
     }
     fclose(fp);

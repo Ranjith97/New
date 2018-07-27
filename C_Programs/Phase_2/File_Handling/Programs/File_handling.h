@@ -32,7 +32,7 @@ struct Node {
     char* ip;
     int server_port;
 };
-linked_t *head, *temp, *new_node, *loop;
+linked_t *temp, *new_node;
 
 #define SUCCESS 0
 #define FAILURE 0
@@ -53,14 +53,18 @@ linked_t *head, *temp, *new_node, *loop;
 #define NUM_MIN '0'
 #define MAC_MIN 0
 #define MAC_MAX 255
+#define STR_LENGTH 100
+#define ID_NAME 37
 
-void add_list(linked_t **head, char* id, char* tcp_name, char* ip_address, \
+void add_list(char* id, char* tcp_name, char* ip_address, \
               int port);
-void del_list(linked_t **head, char* tcp_name, char* ip_address, int port);
-void read_list(linked_t *head, char* ip_address, int port);
+void del_list(char* tcp_name, char* ip_address, int port);
+void read_list(char* ip_address, int port);
 int ip_valid(char* ip_address);
 int port_valid(char* port);
 int id_valid(char* id);
 
-int iter, flag, check, count;
+int flag, port1, iter;
+char uid[ID_NAME], uname[NAME_LENGTH], ip_addr[IP_LENGTH], str[STR_LENGTH];
 char valid;
+FILE *fp;
