@@ -20,6 +20,8 @@ Plug 'tpope/vim-surround'
 Plug 'vim-scripts/c.vim'
 Plug 'Chiel92/vim-autoformat'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'vim-scripts/auto-pairs-gentle'
+Plug 'scrooloose/nerdcommenter'
 
 call plug#end()
 highlight ExtraWhitespace ctermbg=yellow

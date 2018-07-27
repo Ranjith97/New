@@ -1,6 +1,8 @@
 /**
  * @file            : File_handling.c
- * @brief           :
+ * @brief           : This program will read the input as command line argument
+ *                    from the user and add or read or delete the given entries
+ *                    into or from a file based on the user input.
  * @Copyright(c)    : 2012-2013 , VVDN Technologies Pvt. Ltd. Permission is
  *                    hereby granted to everyone in VVDN Technologies to use
  *                    the Software without restriction, including without
