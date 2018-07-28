@@ -37,7 +37,7 @@ void read_list(char *ip_address, int port)
         exit(FAILURE);
     }
     while(fgets(str, STR_LENGTH, fp) != SUCCESS) {
-        sscanf(str,"uuid = %s name = %s ip = %s port no = %d\n", uid, uname,
+        sscanf(str,"uuid = %s name = %s ip = %s port = %d\n", uid, uname,
                 ip_addr, &port1);
         temp->server_port = port1;
         temp->uuid = (char*) calloc(1, (strlen(uid) + 1) * sizeof(char*));
