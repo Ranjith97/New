@@ -1,6 +1,8 @@
 /**
  * @file            : Hash.c
- * @brief           :
+ * @brief           : This program will get the MAC id from the user and does
+ *                    insertion or deletion or searching of the MAC id in the
+ *                    hash table based on the user input
  * @author          : Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
  * @Copyright(c)    : 2012-2013 , VVDN Technologies Pvt. Ltd. Permission is
  *                    hereby granted to everyone in VVDN Technologies to use
