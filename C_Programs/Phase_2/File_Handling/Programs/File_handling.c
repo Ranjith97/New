@@ -47,7 +47,8 @@ int main ( int argc, char *argv[] )
                       break;
             case 'd': do_delete = 0;
                       break;
-            case 'i': if (id_valid(optarg) == SUCCESS) {
+            case 'i': if ((id_valid(optarg)) == SUCCESS && \
+                              (strlen(optarg) == ID_LENGTH)) {
                           id = 0;
                           strcpy(uid, optarg);
                           break;
@@ -80,8 +81,8 @@ int main ( int argc, char *argv[] )
                               argv[0], optopt);
                       break;
             default: fprintf(stderr, "%s: option '-%c' is invalid: ignored\n",
-                              argv[0], optopt);
-                      break;
+                             argv[0], optopt);
+                     break;
         }
     }
     if ((do_add == SUCCESS) && (ip == SUCCESS) && (id == SUCCESS) && \
