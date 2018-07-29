@@ -30,6 +30,7 @@ void del(long int *hash)
         printf("Enter MAC address to delete :");
         check = scanf("%2x:%2x:%2x:%2x:%2x:%2x%c", &mac[0], &mac[1], &mac[2],
                 &mac[3], &mac[4], &mac[5], &valid);
+        /* Checking valid MAC is entered or not */
         if ((check == 7) && (valid == '\n') && (mac[0] >= 0) && (mac[1] >= 0) &&
                 (mac[2] >= 0) && (mac[3] >= 0) && (mac[4] >= 0) && \
                 (mac[5] >= 0)) {
@@ -42,6 +43,7 @@ void del(long int *hash)
         while (getchar() != '\n');
     }while (flag == SUCCESS);
         temp = (char*)calloc(1, 12 * sizeof(char*));
+        /* Converting the mac array to string */
         for (iter = 0;iter < MAC_SIZE;iter++) {
 		sprintf(arr, "%x", mac[iter]);
 		strcat(temp, arr);
@@ -49,19 +51,19 @@ void del(long int *hash)
 	sscanf(temp, "%ld", &mac_num);
     free(temp);
     element = mac[0] + mac[5];
-    pos = element % HFN;
+    pos = element % HFN; /* Hash function */
     while (num++ != SIZE) {
-		if (hash[pos] == INT_MIN) {
+		if (hash[pos] == INT_MIN) { /* This indicates the table is empty */
 			printf("Element not found in hash table.\n\n");
 			break;
 		}
 		else if (hash[pos] == mac_num) {
-			hash[pos] = INT_MAX;
+			hash[pos] = INT_MAX; /* This indicates the mac is deleted */
 			printf("Element deleted.\n\n");
 			break;
 		}
 		else {
-			pos = (pos+1) % HFN;
+			pos = (pos+1) % HFN; /* Progressing to next cell */
 		}
     }
 	if(--num == SIZE) {

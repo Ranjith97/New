@@ -26,6 +26,7 @@ int main()
     do {
         printf("Enter your choice\n");
         printf("1-> Insert\n2-> Delete\n3-> Searching\n0-> Exit\n");
+        /* Getting choice from user */
         scanf("%d",&choice);
 
         switch(choice){
@@ -44,7 +45,7 @@ int main()
                     break;
                 }
         }
-    } while (choice != SUCCESS);
+    }while (choice != SUCCESS);
 
     return SUCCESS;
 }

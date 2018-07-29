@@ -31,6 +31,7 @@ void insert(long int *hash)
         printf("Enter MAC address to be added: ");
         flag = scanf("%2x:%2x:%2x:%2x:%2x:%2x%c", &mac[0], &mac[1], &mac[2],
                 &mac[3], &mac[4], &mac[5], &valid);
+        /* Checking if valid MAC is entered or not */
         if ((flag == 7) && (valid == '\n') && (mac[0] >= 0) && (mac[1] >= 0) \
                 && (mac[2] >= 0) && (mac[3] >= 0) && (mac[4] >= 0) && \
                 (mac[5] >= 0)) {
@@ -43,6 +44,7 @@ void insert(long int *hash)
         while (getchar() != '\n');
     }while (check == SUCCESS);
         temp = (char*) calloc(1, 12 * sizeof(char));
+        /* Converting the mac array to string */
         for (iter = 0;iter < MAC_SIZE;iter++) {
             sprintf(arr, "%x", mac[iter]);
             strcat(temp, arr);
@@ -50,14 +52,14 @@ void insert(long int *hash)
         sscanf(temp, "%ld", &mac_num);
         element = mac[0] + mac[5];
         free(temp);
-        pos = element % HFN;
+        pos = element % HFN; /* Hash function */
         while (hash[pos] != INT_MIN) {
-            if (hash[pos] == INT_MAX) {
+            if (hash[pos] == INT_MAX) { /* This indicaes the cell is empty */
                 break;
             }
             pos = (pos + 1) % HFN;
             num++;
-            if (num == SIZE) {
+            if (num == SIZE) { /* This indiactes the table is full */
                 break;
             }
         }
@@ -65,7 +67,7 @@ void insert(long int *hash)
             printf("Hash table was full of elements\nNo Place to insert this" \
                     " element\n\n");
         }
-        else {
+        else { /* Inserting the element */
             hash[pos] = mac_num;
             printf("The MAC is inserted successfully.\n\n");
         }
