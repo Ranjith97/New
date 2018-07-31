@@ -1,5 +1,5 @@
 /**
- * @file            : Hash.h
+ * @file            : List.h
  * @brief           :
  * @author          : Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
  * @Copyright(c)    : 2012-2013, VVDN Technologies Pvt. Ltd. Permission is
@@ -25,6 +25,7 @@
 #define DOMAIN_LENGTH 2
 #define SUCCESS 0
 #define FAILURE 0
+#define TRUE 1
 #define COUNT 3
 #define NEWLINE '\n'
 #define CHECK_INTEGER_LENGTH 2
@@ -43,6 +44,8 @@
  *  @experience    : Experience of the employee
  *  @domain        : Domain of the employee
  *  @id            : ID of the employee
+ *  @prev          : contains previous element address
+ *  @next          : contains next element address
  */
 struct Employee {
     char* name;
@@ -55,13 +58,22 @@ struct Employee {
 };
 typedef struct Employee employee_t;
 
-void input();
+int input(employee_t *head);
 void insert_at_begin();
+void delete_at_start();
 void insert_at_end();
 void delete_at_end();
 void delete_at_position(int position);
-void name_valid(int iterator);
-void DOB_valid(int iterator);
+void insert_at_position(int position);
+void delete_by_id(int data);
+void print_reverse();
+void display();
+void name_valid();
+void DOB_valid();
 int integer_valid();
 int domain_valid();
 int option_valid();
+
+employee_t *details, *head = NULL;
+int number, flag, count, check, iterator, loop;
+char valid;
