@@ -38,7 +38,7 @@ int main()
 				insert_at_end();
 				break;
 			case 4:
-				printf("\nEnter the channel number to delete");
+				printf("\nEnter the id number to delete");
 				scanf("%d", &data);
 				delete_by_id(data);
 				break;
