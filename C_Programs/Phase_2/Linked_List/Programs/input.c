@@ -13,8 +13,8 @@
 
 /**
  * @function       : input
+ * @param1         : address of head
  * @brief          : This function will get the employee details from the user
- *                   for the given number of entries
  * @caller         : main
  */
 int input(employee_t *head)
@@ -72,5 +72,6 @@ int input(employee_t *head)
         case 3:strcpy(details->domain, "QA");
                break;
     }
+    while (getchar() != \n);
     return TRUE;
 }
