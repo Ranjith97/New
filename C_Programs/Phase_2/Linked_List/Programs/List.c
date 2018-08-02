@@ -12,10 +12,11 @@
 
 int main()
 {
-    int option, data = 0, position = 0;
+    int option, data = 0;
+    position = 0;
+    head = NULL;
 
 	do {
-
 		printf("\nEnter 1 to Insert at begin");
 		printf("\nEnter 2 to Insert at a position");
 		printf("\nEnter 3 to Insert at end");
@@ -27,20 +28,20 @@ int main()
 
 		switch(option) {
 			case 1:
-				insert_at_begin();
+				insert_begin();
 				break;
 			case 2:
 				printf("\nEnter the position to insert");
 				scanf("%d", &position);
-				insert_at_position(position);
+				insert_position(position);
 				break;
 			case 3:
-				insert_at_end();
+				insert_end();
 				break;
 			case 4:
 				printf("\nEnter the id number to delete");
 				scanf("%d", &data);
-				delete_by_id(data);
+				delete_id(data);
 				break;
 			case 5:
 				print_reverse();

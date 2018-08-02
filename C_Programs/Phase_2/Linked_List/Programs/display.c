@@ -19,8 +19,10 @@ void display()
 {
     employee_t *temp = head;
     count = 0;
+    loop = 1;
     /*traverse and display elements in list*/
     while (temp != NULL) {
+        loop = 0;
         printf("The details of the employees %d is:\n", count + 1);
         printf("The name of the employee is : %s\n", temp->name);
         printf("The DOB of the employee is : %d/%d/19%d\n", temp->DOB[0], \
@@ -31,5 +33,8 @@ void display()
         temp = temp->next;
         count++;
     }
-    free(temp);
+    if (loop != SUCCESS) {
+        printf("There are no elements in the list.\n");
+    }
+    while (getchar() != '\n');
 }

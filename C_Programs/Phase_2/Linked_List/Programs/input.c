@@ -35,7 +35,7 @@ int input(employee_t *head)
     printf("Enter the ID of the employee.\n");
     details->id = integer_valid();
 
-    while (head != NULL) {
+    /*while (head != NULL) {
         temp = head;
         while(temp)
         {
@@ -54,7 +54,7 @@ int input(employee_t *head)
     }
     free(temp);
     free(temp1);
-    free(temp2);
+    free(temp2); */
     printf("Enter the date of birth in DD/MM/YY format and the year must"  \
             " be within 1960 and 1998.\n");
     DOB_valid();
@@ -72,6 +72,5 @@ int input(employee_t *head)
         case 3:strcpy(details->domain, "QA");
                break;
     }
-    while (getchar() != \n);
     return TRUE;
 }

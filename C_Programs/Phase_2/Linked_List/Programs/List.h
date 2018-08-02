@@ -59,13 +59,13 @@ struct Employee {
 typedef struct Employee employee_t;
 
 int input(employee_t *head);
-void insert_at_begin();
-void delete_at_start();
-void insert_at_end();
-void delete_at_end();
-void delete_at_position(int position);
-void insert_at_position(int position);
-void delete_by_id(int data);
+void insert_begin();
+void delete_start();
+void insert_end();
+void delete_end();
+void delete_position(int position);
+void insert_position(int position);
+void delete_id(int data);
 void print_reverse();
 void display();
 void name_valid();
@@ -74,6 +74,6 @@ int integer_valid();
 int domain_valid();
 int option_valid();
 
-employee_t *details, *head = NULL;
-int number, flag, count, check, iterator, loop;
+employee_t *details, *head;
+int flag, count, check, loop, position;
 char valid;
