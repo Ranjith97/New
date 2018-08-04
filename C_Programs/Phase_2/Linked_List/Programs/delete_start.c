@@ -16,18 +16,19 @@
  * @caller   : delete_position
  */
 void delete_start() {
-	employee_t *temp = head;
-	if (temp != NULL) {
-		if (head->next == NULL)
-		{
-			head = NULL;
-			return;
-		}
-		head = head->next;
-		head->prev = NULL;
-		free(temp);
+	employee_t *toDelete;
+
+	if(head == NULL)
+	{
+		printf("Unable to delete. List is empty.\n");
 	}
-    else {
-		printf("No elements in list\n");
+	else
+	{
+		toDelete = head;
+		head = head->next; /* Move head pointer to 2 node */
+		if (head != NULL) {
+			head->prev = NULL; /* Remove the link to previous node */
+		}
+		free(toDelete); /* Delete the first node from memory */
 	}
 }

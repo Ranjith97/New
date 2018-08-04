@@ -19,22 +19,19 @@ void display()
 {
     employee_t *temp = head;
     count = 0;
-    loop = 1;
-    /*traverse and display elements in list*/
+    /* Traverse and display elements in list */
     while (temp != NULL) {
-        loop = 0;
-        printf("The details of the employees %d is:\n", count + 1);
         printf("The name of the employee is : %s\n", temp->name);
         printf("The DOB of the employee is : %d/%d/19%d\n", temp->DOB[0], \
                 temp->DOB[1], temp->DOB[2]);
         printf("The experience of the employee is %d\n", temp->experience);
         printf("The domain of the employee is %s\n", temp->domain);
-        printf("The ID of the employee is %d\n", temp->id);
+        printf("The ID of the employee is %d\n\n", temp->id);
         temp = temp->next;
-        count++;
+        count = 1;
     }
-    if (loop != SUCCESS) {
-        printf("There are no elements in the list.\n");
+    if (count == SUCCESS) {
+        printf("\nThere are no elements in the list.\n\n");
     }
-    while (getchar() != '\n');
+    free(temp);
 }

@@ -41,7 +41,6 @@ int domain_valid()
             else {
                 break;
             }
-
         }
         else {
             printf("Program is terminated due to repeated false inputs.\n");

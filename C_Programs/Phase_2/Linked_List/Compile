@@ -1,1 +1,1 @@
-gcc -Wall -g delete_end.c delete_poistion.c display.c domain_valid.c insert_begin.c insert_position.c option_valid.c delete_id.c delete_start.c DOB_valid.c input.c insert_end.c integer_valid.c List.c name_valid.c print_reverse.c -o Linked_List
+gcc -Wall delete_end.c delete_position.c display.c domain_valid.c insert_begin.c insert_position.c option_valid.c delete_id.c delete_start.c DOB_valid.c input.c insert_end.c integer_valid.c List.c name_valid.c print_reverse.c -o Linked_List

@@ -20,7 +20,7 @@
 int input(employee_t *head)
 {
     int choice, time = 0;
-    employee_t *temp = NULL, *temp1 = NULL, *temp2 = NULL;
+    employee_t *temp = head;
 
     choice = 0;
 
@@ -30,35 +30,23 @@ int input(employee_t *head)
     }
     /* Getting the details of the employee from the user */
     printf("Enter the details of employee.\n");
-    printf("Enter the employee name.\n");
+    printf("Enter the employee name : ");
     name_valid();
-    printf("Enter the ID of the employee.\n");
+    printf("Enter the ID of the employee : ");
     details->id = integer_valid();
 
-    /*while (head != NULL) {
-        temp = head;
-        while(temp)
-        {
-            temp1 = temp->next;
-            while(temp1)
-            {
-                temp2 = temp1;
-                temp1 = temp1->next;
-                if(temp->id == temp2->id) {
-                    printf("There is already an element with this id.\n");
-                    return FAILURE;
-                }
-            }
-            temp = temp->next;
+    while (temp != NULL) {
+        if (details->id == temp->id) {
+            printf("There is already an element with given id in the list : ");
+            return FAILURE;
         }
+        temp = temp->next;
     }
     free(temp);
-    free(temp1);
-    free(temp2); */
     printf("Enter the date of birth in DD/MM/YY format and the year must"  \
-            " be within 1960 and 1998.\n");
+            " be within 1960 and 1998 : ");
     DOB_valid();
-    printf("Enter the experience of the employee.\n");
+    printf("Enter the experience of the employee : ");
     details->experience = integer_valid();
     printf("Enter the domain name like \n1. SW\n2. HW\n3. QA\n");
     choice = domain_valid();

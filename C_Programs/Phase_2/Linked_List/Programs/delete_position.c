@@ -1,5 +1,5 @@
 /**
- * @file            : delete_poistion.c
+ * @file            : delete_position.c
  * @brief           :
  * @author          : Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
  * @Copyright(c)    : 2012-2013, VVDN Technologies Pvt. Ltd. Permission is
@@ -19,27 +19,26 @@
 void delete_position(int position) {
     employee_t *temp = head;
     employee_t *del_ptr = head;
-    employee_t *previous = head;
-    employee_t *next_element = head;
     int prev_loc = 0;
     count = 0;
+    /* Counting the number of elements */
     while (temp != NULL) {
         temp = temp->next;
         count++;
     }
+    free(temp);
     del_ptr = head;
-    if (count >= position && position != FAILURE) {
-        while (prev_loc < position-2) {
+    if (count > position && position != 1) {
+        /* Traversing till the position is reached */
+        while (prev_loc < position - 2) {
             del_ptr = del_ptr->next;
             prev_loc++;
         }
-        previous = del_ptr->prev;
-        next_element = del_ptr->next;
-        previous->next =next_element;
-        next_element->prev = previous;
+        del_ptr->prev->next = del_ptr->next;
+        del_ptr->next->prev = del_ptr->prev;
         free(del_ptr);
     }
-    else if (position == 0) {
+    else if (position == 1) {
         delete_start();
     }
     else if (count == position) {
@@ -48,7 +47,4 @@ void delete_position(int position) {
     else {
         printf("\nSorry!There are only %d elements in the list",count);
     }
-    free(temp);
-    free(previous);
-    free(next_element);
 }

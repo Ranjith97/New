@@ -18,7 +18,7 @@
  * @caller         : list main function
  */
 void insert_begin() {
-    employee_t *new_node = (employee_t*)calloc(1, sizeof(employee_t));
+    new_node = (employee_t*)calloc(1, sizeof(employee_t));
     details = new_node;
     /* Element is inserted only when there is no duplicate element already
      * present in the list */
@@ -36,5 +36,4 @@ void insert_begin() {
             head = new_node;
         }
     }
-    free(new_node);
 }

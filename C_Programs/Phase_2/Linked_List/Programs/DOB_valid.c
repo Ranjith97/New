@@ -31,10 +31,10 @@ void DOB_valid()
             check = scanf("%d/%d/%d%c", &buffer[0], &buffer[1], &buffer[2],
                     &valid);
             /* Checking the DOB for valid numbers and years */
-            if ((DOB_LENGTH != check) || (valid != NEWLINE) ||            \
-                (buffer[0] > DATE_MAX) || (buffer[0] < DOB_MIN) ||        \
-                (buffer[1] < DOB_MIN) || (buffer[1] > MONTH_MAX) ||       \
-                (buffer[2] < YEAR_MIN) || (buffer[2] > YEAR_MAX)) {
+            if ((DOB_LENGTH != check) || (valid != NEWLINE) ||                \
+                    (buffer[0] > DATE_MAX) || (buffer[0] < DOB_MIN) ||        \
+                    (buffer[1] < DOB_MIN) || (buffer[1] > MONTH_MAX) ||       \
+                    (buffer[2] < YEAR_MIN) || (buffer[2] > YEAR_MAX)) {
                 printf("Invalid Input.\n");
                 printf("Enter the correct DOB before 2018.\n");
                 flag = 0;
@@ -49,8 +49,8 @@ void DOB_valid()
         }
         while (getchar() != NEWLINE);
     }while (flag == SUCCESS);
-    details->DOB = (int *) malloc(3 * sizeof(int));
-    for (loop = 0;loop < INT_LENGTH;loop++) {
-        details->DOB[loop] = buffer[loop];
-    }
+            details->DOB = (int *) calloc(1, 3 * sizeof(int));
+            for (loop = 0;loop < INT_LENGTH;loop++) {
+                details->DOB[loop] = buffer[loop];
+            }
 }

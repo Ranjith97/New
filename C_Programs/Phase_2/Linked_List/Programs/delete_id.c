@@ -19,17 +19,17 @@
  * @caller   : List main function
  */
 void delete_id(int data) {
-	employee_t *temp = head;
-	count = 0;
-	/*Find position to be deleted*/
-	while (temp != NULL) {
-		if (temp->id == data) {
-			printf("COUNT:%d\n",count);
-			delete_position(count);/*Delete at that position.*/
+	employee_t *tmp = head;
+	int count1 = 1;
+	/* Find position to be deleted */
+	while (tmp != NULL) {
+		if (tmp->id == data) {
+			printf("COUNT:%d\n", count1);
+			delete_position(count1);/* Delete at that position. */
 		} else {
-			count++;
+			count1++;
 		}
-		temp = temp->next;
+		tmp = tmp->next;
 	}
-    free(temp);
+    free(tmp);
 }

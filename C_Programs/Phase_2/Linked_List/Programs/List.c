@@ -16,22 +16,24 @@ int main()
     position = 0;
     head = NULL;
 
+    /* Getting the input values from the user */
 	do {
 		printf("\nEnter 1 to Insert at begin");
 		printf("\nEnter 2 to Insert at a position");
 		printf("\nEnter 3 to Insert at end");
-		printf("\nEnter 4 to delete by channel number");
+		printf("\nEnter 4 to delete by id number");
 		printf("\nEnter 5 to print elements in reverse");
 		printf("\nEnter 6 to display elements");
-		printf("\nEnter any other option to exit\n");
+		printf("\nEnter any other option to exit\n\n");
 		scanf("%d", &option);
 
+        /* Checking the entered value from the user for correct input */
 		switch(option) {
 			case 1:
 				insert_begin();
 				break;
 			case 2:
-				printf("\nEnter the position to insert");
+				printf("\nEnter the position to insert : ");
 				scanf("%d", &position);
 				insert_position(position);
 				break;
@@ -39,7 +41,7 @@ int main()
 				insert_end();
 				break;
 			case 4:
-				printf("\nEnter the id number to delete");
+				printf("\nEnter the id number to delete : ");
 				scanf("%d", &data);
 				delete_id(data);
 				break;
@@ -54,10 +56,13 @@ int main()
 				exit(FAILURE);
 		}
 	}while (TRUE);
+    /* Freeing the allocated memories */
     free(details->name);
     free(details->DOB);
     free(details->domain);
     free(details->prev);
     free(details->next);
+    free(head);
+    free(new_node);
 	return SUCCESS;
 }

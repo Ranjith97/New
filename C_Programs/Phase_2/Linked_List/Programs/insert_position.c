@@ -20,42 +20,42 @@
 void insert_position(int position) {
     employee_t *temp = head;
     employee_t *previous = head;
-    employee_t *next_element = head;
-    employee_t *new_node = (employee_t *)calloc(1, sizeof(employee_t));
     int prev_loc = 0;
     count = 0;
+    /* Counting the number of elements in the list */
     while (temp != NULL) {
         temp = temp->next;
         count++;
     }
+    free(temp);
     previous = head;
     if (count >= position && position != 0) {
-        while (prev_loc < position-2) {
+        /* Traversing till the position is reached */
+        while (prev_loc < position - 2) {
             previous = previous->next;
             prev_loc++;
         }
+        new_node = (employee_t *)calloc(1, sizeof(employee_t));
         details = new_node;
         /* Element is inserted only when there is no duplicate element already
          * present in the list */
         if (input(head) != FAILURE) {
-            next_element = previous->next;
+            new_node->next = previous->next;
             new_node->prev = previous;
-            new_node->next = next_element;
+            if (previous->next != NULL) {
+                previous->next->prev = new_node;
+            }
             previous->next = new_node;
-            next_element->prev = new_node;
-        }
-        else if (position == 0) {
-            insert_begin();
-        }
-        else if (count++ == position) {
-            insert_end();
-        }
-        else {
-            printf("\nSorry!There are only %d elements in the list", count);
         }
     }
-    free(temp);
+    else if (position == 0) {
+        insert_begin();
+    }
+    else if (count+1 == position) {
+        insert_end();
+    }
+    else {
+        printf("\nSorry!There are only %d elements in the list\n", count);
+    }
     free(previous);
-    free(new_node);
-    free(next_element);
 }

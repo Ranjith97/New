@@ -19,23 +19,26 @@ void print_reverse()
 {
 	employee_t *temp = head;
     count = 0;
-	/*traverse to end*/
+	/* Traverse to end */
 	if (temp != NULL) {
         while (temp->next != NULL) {
             temp = temp->next;
         }
+        /* Printing the elements in reversed order */
         while (temp != NULL) {
-            printf("The details of the employees %d is:\n", count + 1);
             printf("The name of the employee is : %s\n", temp->name);
             printf("The DOB of the employee is : %d/%d/19%d\n", temp->DOB[0], \
                     temp->DOB[1], temp->DOB[2]);
             printf("The experience of the employee is %d\n", temp->experience);
             printf("The domain of the employee is %s\n", temp->domain);
-            printf("The ID of the employee is %d\n", temp->id);
-            temp = temp->next;
-            count++;
+            printf("The ID of the employee is %d\n\n", temp->id);
+            temp = temp->prev;
+            count = 1;
         }
         free(temp);
+    }
+    if (count == SUCCESS) {
+        printf("\nThere are no elements in the list.\n");
     }
 }
 

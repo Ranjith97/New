@@ -11,23 +11,28 @@
 #include"List.h"
 
 /**
- * @function : deletet_end
+ * @function : delete_end
  * @brief    : This function will delete the last element in list.
  * @caller   : delete_position
  */
 void delete_end() {
-	employee_t *temp = head;
-	employee_t *last_one = head;
-	if (temp != NULL) {
-		while (temp->next != NULL) {
-			temp = temp->next;
-		}
-		last_one = temp->prev;
-		last_one->next = NULL;
-		free(temp);
-        free(last_one);
-	}
-    else {
-		printf("\nNo elements present in the list\n");
-	}
+    employee_t *toDelete;
+
+    if(head == NULL)
+    {
+        printf("Unable to delete. List is empty.\n");
+    }
+    else
+    {
+        toDelete = head;
+        while (toDelete != NULL) {
+            if (toDelete-> next == NULL) {
+                toDelete->prev->next = NULL;
+                free(toDelete); /* Freeing the allocated memory */
+                break;
+            }
+            /* Traversing till last element is reached */
+            toDelete = toDelete->next;
+        }
+    }
 }

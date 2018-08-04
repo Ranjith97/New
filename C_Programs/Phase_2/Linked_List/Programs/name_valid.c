@@ -44,6 +44,6 @@ void name_valid()
         }
         while (getchar() != NEWLINE);
     }while (flag == SUCCESS);
-    details->name = (char *) malloc(strlen(buffer) * sizeof(char));
+    details->name = (char *) calloc(1, strlen(buffer) * sizeof(char));
     memcpy(details->name, &buffer, strlen(buffer));
 }
