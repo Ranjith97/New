@@ -1,6 +1,9 @@
 /**
  * @file            : insert_begin.c
- * @brief           :
+ * @brief           : This program will create a doubly linked list and do the
+ *                    operations like insertion, deletion (both all cases),
+ *                    printing in reversed order and displaying the contents
+ *                    of the list based upon the user input
  * @author          : Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
  * @Copyright(c)    : 2012-2013 , VVDN Technologies Pvt. Ltd. Permission is
  *                    hereby granted to everyone in VVDN Technologies to use
