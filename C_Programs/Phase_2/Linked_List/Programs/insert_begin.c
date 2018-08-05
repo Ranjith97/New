@@ -35,7 +35,6 @@ void insert_begin() {
         else {
             new_node->prev = NULL;
             new_node->next = head;
-            head->prev = new_node;
             head = new_node;
         }
     }

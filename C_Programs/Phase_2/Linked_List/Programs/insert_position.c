@@ -32,7 +32,7 @@ void insert_position(int position) {
     }
     free(temp);
     previous = head;
-    if (count >= position && position != 0) {
+    if (count > position && position != 0) {
         /* Traversing till the position is reached */
         while (prev_loc < position - 2) {
             previous = previous->next;
@@ -51,10 +51,10 @@ void insert_position(int position) {
             previous->next = new_node;
         }
     }
-    else if (position == 0) {
+    else if (position - 1 == 0) {
         insert_begin();
     }
-    else if (count+1 == position) {
+    else if (count == position) {
         insert_end();
     }
     else {
