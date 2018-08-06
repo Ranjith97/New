@@ -30,7 +30,6 @@ void insert_position(int position) {
         temp = temp->next;
         count++;
     }
-    free(temp);
     previous = head;
     if (count > position && position != 0) {
         /* Traversing till the position is reached */
@@ -39,7 +38,7 @@ void insert_position(int position) {
             prev_loc++;
         }
         new_node = (employee_t *)calloc(1, sizeof(employee_t));
-        details = new_node;
+        //details = new_node;
         /* Element is inserted only when there is no duplicate element already
          * present in the list */
         if (input(head) != FAILURE) {
@@ -54,11 +53,10 @@ void insert_position(int position) {
     else if (position - 1 == 0) {
         insert_begin();
     }
-    else if (count == position) {
+    else if (count + 1 == position) {
         insert_end();
     }
     else {
         printf("\nSorry!There are only %d elements in the list\n", count);
     }
-    free(previous);
 }

@@ -36,11 +36,11 @@ int input(employee_t *head)
     printf("Enter the employee name : ");
     name_valid();
     printf("Enter the ID of the employee : ");
-    details->id = integer_valid();
+    new_node->id = integer_valid();
 
     while (temp != NULL) {
-        if (details->id == temp->id) {
-            printf("There is already an element with given id in the list : ");
+        if (new_node->id == temp->id) {
+            printf("There is already an element with given id in the list.\n");
             return FAILURE;
         }
         temp = temp->next;
@@ -50,17 +50,17 @@ int input(employee_t *head)
             " be within 1960 and 1998 : ");
     DOB_valid();
     printf("Enter the experience of the employee : ");
-    details->experience = integer_valid();
+    new_node->experience = integer_valid();
     printf("Enter the domain name like \n1. SW\n2. HW\n3. QA\n");
     choice = domain_valid();
-    details->domain = (char *) calloc(1, 2 * sizeof(char));
+    new_node->domain = (char *) calloc(1, 2 * sizeof(char));
     switch(choice)
     {
-        case 1:strcpy(details->domain, "SW");
+        case 1:strcpy(new_node->domain, "SW");
                break;
-        case 2:strcpy(details->domain, "HW");
+        case 2:strcpy(new_node->domain, "HW");
                break;
-        case 3:strcpy(details->domain, "QA");
+        case 3:strcpy(new_node->domain, "QA");
                break;
     }
     return TRUE;

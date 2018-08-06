@@ -47,6 +47,6 @@ void name_valid()
         }
         while (getchar() != NEWLINE);
     }while (flag == SUCCESS);
-    details->name = (char *) calloc(1, strlen(buffer) * sizeof(char));
-    memcpy(details->name, &buffer, strlen(buffer));
+    new_node->name = (char *) calloc(1, strlen(buffer) * sizeof(char));
+    memcpy(new_node->name, &buffer, strlen(buffer));
 }

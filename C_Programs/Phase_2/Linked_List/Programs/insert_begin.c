@@ -22,7 +22,7 @@
  */
 void insert_begin() {
     new_node = (employee_t*)calloc(1, sizeof(employee_t));
-    details = new_node;
+    //details = new_node;
     /* Element is inserted only when there is no duplicate element already
      * present in the list */
     if (input(head) != FAILURE) {
@@ -35,6 +35,7 @@ void insert_begin() {
         else {
             new_node->prev = NULL;
             new_node->next = head;
+            head->prev = new_node;
             head = new_node;
         }
     }

@@ -52,8 +52,8 @@ void DOB_valid()
         }
         while (getchar() != NEWLINE);
     }while (flag == SUCCESS);
-            details->DOB = (int *) calloc(1, 3 * sizeof(int));
+            new_node->DOB = (int *) calloc(1, 3 * sizeof(int));
             for (loop = 0;loop < INT_LENGTH;loop++) {
-                details->DOB[loop] = buffer[loop];
+                new_node->DOB[loop] = buffer[loop];
             }
 }

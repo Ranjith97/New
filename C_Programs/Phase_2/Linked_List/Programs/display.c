@@ -36,5 +36,4 @@ void display()
     if (count == SUCCESS) {
         printf("\nThere are no elements in the list.\n\n");
     }
-    free(temp);
 }

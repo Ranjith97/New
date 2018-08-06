@@ -34,5 +34,4 @@ void delete_id(int data) {
 		}
 		tmp = tmp->next;
 	}
-    free(tmp);
 }
