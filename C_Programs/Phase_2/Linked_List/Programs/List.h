@@ -77,6 +77,6 @@ int integer_valid();
 int domain_valid();
 int option_valid();
 
-employee_t *details, *head, *new_node;
+employee_t *head, *new_node;
 int flag, count, check, loop, position;
 char valid;

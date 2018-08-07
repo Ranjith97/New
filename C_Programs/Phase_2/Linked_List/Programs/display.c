@@ -24,7 +24,7 @@ void display()
     count = 0;
     /* Traverse and display elements in list */
     while (temp != NULL) {
-        printf("The name of the employee is : %s\n", temp->name);
+        printf("\nThe name of the employee is : %s\n", temp->name);
         printf("The DOB of the employee is : %d/%d/19%d\n", temp->DOB[0], \
                 temp->DOB[1], temp->DOB[2]);
         printf("The experience of the employee is %d\n", temp->experience);
