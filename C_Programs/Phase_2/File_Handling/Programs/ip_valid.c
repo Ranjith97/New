@@ -13,24 +13,17 @@
 #include"File_handling.h"
 int ip_valid(char *ip_address)
 {
-    int first_octet, second_octet, third_octet, fourth_octet, period_count;
-
-    period_count = 0;
-	first_octet = 0;
-    second_octet = 0;
-    third_octet = 0;
-    fourth_octet = 0;
+    int first_octet = 0, second_octet = 0, third_octet = 0, fourth_octet = 0, \
+                      period_count = 0;
 
     for (iter = 0;ip_address[iter] != NULL_CHARACTER;iter++) {
         if (!(((ip_address[iter] >= NUM_MIN) && (ip_address[iter] <= NUM_MAX)) \
-                || ((ip_address[iter] == PERIOD)))) {
-            printf("The ip address entered is not valid.\n");
-            exit(FAILURE);
+                    || ((ip_address[iter] == PERIOD)))) {
+            return FALSE;
         }
         if (ip_address[iter] == PERIOD) {
             if (ip_address[iter+1] == PERIOD){
-            printf("The ip address entered is not valid.\n");
-            exit(FAILURE);
+                return FALSE;
             }
             else {
                 period_count++; /* Counts the number of dots */
@@ -38,19 +31,17 @@ int ip_valid(char *ip_address)
         }
     }
     if (period_count != PERIOD_COUNT) {
-        printf("The ip address entered is not valid.\n");
-        exit(FAILURE);
+        return FALSE;
     }
     else {
         sscanf(ip_address,"%d.%d.%d.%d", &first_octet, &second_octet, \
                 &third_octet, &fourth_octet);
         /* Checks if IP address is valid */
-        if(!((first_octet >= MAC_MIN && first_octet <= MAC_MAX) && \
-                (second_octet >= MAC_MIN && second_octet <= MAC_MAX) && \
-                (third_octet >= MAC_MIN && third_octet <= MAC_MAX) && \
-                (fourth_octet >= MAC_MIN && fourth_octet <= MAC_MAX))) {
-            printf("Invalid IP address\n");
-            exit(FAILURE);
+        if(!((first_octet >= IP_MIN && first_octet <= IP_MAX) && \
+                    (second_octet >= IP_MIN && second_octet <= IP_MAX) && \
+                    (third_octet >= IP_MIN && third_octet <= IP_MAX) && \
+                    (fourth_octet >= IP_MIN && fourth_octet <= IP_MAX))) {
+            return FALSE;
         }
         else {
             return SUCCESS;

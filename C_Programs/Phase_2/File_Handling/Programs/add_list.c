@@ -29,14 +29,17 @@ void add_list(char* id, char* tcp_name, char* ip_address, int port)
     temp = NULL;
     uid[0] = '\0';
 
-    fp=fopen("tcpserver.txt", "a+");
+    fp=fopen("tcpserver.txt", "r");
     if (fp == NULL) {
-        fprintf(stderr,"Error opening file.\n");
-        free(temp);
-        exit(FAILURE);
+        printf("There is no file called tcpserver.txt so it's creating that"\
+                " file and continuing with the program execution.\n\n");
+        system("touch tcpserver.txt");
     }
+    else {
+        fclose(fp);
+    }
+    fp=fopen("tcpserver.txt", "a+");
     /* Checking if the new entry is already present in the list or not */
-    if (fgets(str, STR_LENGTH, fp) == SUCCESS) return;
     while(fgets(str, STR_LENGTH, fp) != SUCCESS) {
         sscanf(str,"uuid = %s\n",uid);
         if(strcmp(uid, id) == SUCCESS) {

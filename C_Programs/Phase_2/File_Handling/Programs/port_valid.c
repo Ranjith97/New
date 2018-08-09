@@ -22,8 +22,7 @@ int port_valid(char *port)
 
     for (iter = 0;port[iter] != NULL_CHARACTER;iter++) {
         if (!(isalpha(port[iter]) == SUCCESS)) {
-            printf("There is a character in the port number.\n");
-            exit(FAILURE);
+            return FALSE;
         }
         else {
             flag = 0;
@@ -32,8 +31,7 @@ int port_valid(char *port)
     if (flag == SUCCESS) {
         port_no = atoi(port);
         if ((port_no <= PORT_MIN) || (port_no > PORT_MAX)) {
-            printf("The entered port number is not valid.\n");
-            exit(FAILURE);
+            return FALSE;
         }
         else {
             return SUCCESS;

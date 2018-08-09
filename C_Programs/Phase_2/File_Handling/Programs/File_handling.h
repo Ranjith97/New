@@ -39,9 +39,9 @@ linked_t *temp;
 #define SUCCESS 0
 #define FAILURE 0
 #define NEWLINE '\n'
-#define IP_LENGTH 15
+#define IP_LENGTH 16
 #define NAME_LENGTH 10
-#define ID_LENGTH 36
+#define ID_LENGTH 37
 #define FALSE -1
 #define HYPHEN_LENGTH 4
 #define HYPHEN '-'
@@ -53,8 +53,8 @@ linked_t *temp;
 #define PERIOD_COUNT 3
 #define NUM_MAX '9'
 #define NUM_MIN '0'
-#define MAC_MIN 0
-#define MAC_MAX 255
+#define IP_MIN 0
+#define IP_MAX 255
 #define STR_LENGTH 100
 #define ID_NAME 37
 
