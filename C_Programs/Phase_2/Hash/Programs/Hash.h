@@ -16,12 +16,15 @@
 #include<stdlib.h>
 #include<math.h>
 #include<string.h>
+#include<ctype.h>
 
 #define SIZE 20
 #define HFN 20
 #define MAC_SIZE 6
+#define MACID_SIZE 18
 #define TEMP_SIZE 2
 #define SUCCESS 0
+#define FAILURE 0
 
 void insert(long int *hash);
 void del(long int *hash);

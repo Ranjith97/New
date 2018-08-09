@@ -10,24 +10,17 @@
 
 char buffer[1024] = "";
 
-int flag =0;
-char currClient[3] = "";
-
 void* clients(void *socket) {
 
 	int new_socket = *(int *)socket;
-	flag = 1;
-
 
 	while(1) {
 
-		send(new_socket , buffer , htonl(strlen(buffer)) , 0 );
+		send(new_socket, buffer, htonl(strlen(buffer)) , 0 );
 		sleep(1);
-		flag = 0;
-
 	}
 
-	buffer[0] = '\0';
+    memset(buffer, 0, 1024);
 	printf("Hello message sent\n");
 	pthread_exit(0);
 }
@@ -36,14 +29,8 @@ void* clientListen(void *socket) {
 	int new_socket = *(int *)socket;
 	while(1) {
 		read( new_socket , buffer, 1024);
-
-		sprintf(currClient,"%d",new_socket);
-		currClient[strlen(currClient)] = ':';
-
-
 		sleep(1);
         memset(buffer, 0, 1024);
-		flag = 0;
 	}
 	pthread_exit(0);
 }
