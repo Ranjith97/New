@@ -15,31 +15,25 @@
 
 int id_valid(char* id)
 {
-    int hyphens[HYPHEN_LENGTH] = {9, 14, 19, 24}, counter;
+    int hyphens[HYPHEN_LENGTH] = {9, 14, 19, 24}, counter, iter;
+    char valid;
 
-    if (strlen(id) != UUID_LENGTH)
-    {
-        return FAILURE;
+    if (strlen(id) != UUID_LENGTH) {
+        return FALSE;
     }
-    for (iter = 0, counter = 0; iter < UUID_LENGTH; iter ++)
-    {
+    for (iter = 0, counter = 0; iter < UUID_LENGTH; iter ++) {
         valid = id[iter];
-        if (iter == hyphens[counter] - 1)
-        {
-            if (valid != HYPHEN)
-            {
-                return FAILURE;
+        if (iter == hyphens[counter] - 1) {
+            if (valid != HYPHEN) {
+                return FALSE;
             }
-            else
-            {
+            else {
                 counter++;
             }
         }
-        else
-        {
-            if (isxdigit(valid) == FAILURE)
-            {
-                return FAILURE;
+        else {
+            if (isxdigit(valid) == SUCCESS) {
+                return FALSE;
             }
         }
     }

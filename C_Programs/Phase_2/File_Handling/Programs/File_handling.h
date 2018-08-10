@@ -37,7 +37,6 @@ struct Node {
 linked_t *temp;
 
 #define SUCCESS 0
-#define FAILURE 0
 #define NEWLINE '\n'
 #define IP_LENGTH 16
 #define NAME_LENGTH 10
@@ -56,7 +55,6 @@ linked_t *temp;
 #define IP_MIN 0
 #define IP_MAX 255
 #define STR_LENGTH 100
-#define ID_NAME 37
 
 void add_list(char* id, char* tcp_name, char* ip_address, \
               int port);
@@ -66,7 +64,4 @@ int ip_valid(char* ip_address);
 int port_valid(char* port);
 int id_valid(char* id);
 
-int flag, port1, iter;
-char uid[ID_NAME], uname[NAME_LENGTH], ip_addr[IP_LENGTH], str[STR_LENGTH];
-char valid;
-FILE *fp;
+//char uid[ID_LENGTH], uname[NAME_LENGTH], ip_addr[IP_LENGTH], str[STR_LENGTH];

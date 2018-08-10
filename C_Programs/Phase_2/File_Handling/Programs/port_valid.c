@@ -15,10 +15,7 @@
 
 int port_valid(char *port)
 {
-    int port_no;
-
-    port_no = 0;
-    flag = 1;
+    int port_no = 0, flag = 1, iter;
 
     for (iter = 0;port[iter] != NULL_CHARACTER;iter++) {
         if (!(isalpha(port[iter]) == SUCCESS)) {

@@ -14,7 +14,7 @@
 int ip_valid(char *ip_address)
 {
     int first_octet = 0, second_octet = 0, third_octet = 0, fourth_octet = 0, \
-                      period_count = 0;
+                      period_count = 0, iter;
 
     for (iter = 0;ip_address[iter] != NULL_CHARACTER;iter++) {
         if (!(((ip_address[iter] >= NUM_MIN) && (ip_address[iter] <= NUM_MAX)) \

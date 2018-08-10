@@ -14,8 +14,7 @@
 
 int main ( int argc, char *argv[] )
 {
-    int do_add = -1, do_read = -1, do_delete = -1, port = -1, id = -1, \
-                 name = -1, ip = -1, long_index = 0, option = 0;
+    int do_option = -1, port = -1, long_index = 0, option = 0;
     char tcp_name[NAME_LENGTH], uid[ID_LENGTH], ip_address[IP_LENGTH];
 
     static struct option long_option[] = {
@@ -31,33 +30,33 @@ int main ( int argc, char *argv[] )
     while ((option = getopt_long(argc, argv, ":arli:n:p:d:", long_option,
                     &long_index)) != FALSE) {
         switch(option) {
-            case 'a': do_add = 0;
+            case 'a': do_option = 0;
                       break;
-            case 'l': do_read = 0;
+            case 'l': do_option = 1;
                       break;
-            case 'r': do_delete = 0;
+            case 'r': do_option = 2;
                       break;
             case 'd': if ((id_valid(optarg)) == SUCCESS && \
                               (strlen(optarg) == ID_LENGTH - 1)) {
-                          id = 0;
+                          do_option = 3;
                           strncpy(uid, optarg, strlen(optarg) + 1);
                           break;
                       }
                       else {
                           printf("The entered id is not correct.\n");
-                          exit(FAILURE);
+                          exit(FALSE);
                       }
-            case 'n': name = 0;
+            case 'n': do_option = 4;
                       strncpy(tcp_name, optarg, strlen(optarg) + 1);
                       break;
             case 'i': if (ip_valid(optarg) == SUCCESS) {
-                          ip = 0;
+                          do_option = 5;
                           strncpy(ip_address, optarg, strlen(optarg) + 1);
                           break;
                       }
                       else {
                           printf("The entered ip is not correct.\n");
-                          exit(FAILURE);
+                          exit(FALSE);
                       }
             case 'p': if (port_valid(optarg) == SUCCESS) {
                           port = atoi(optarg);
@@ -65,7 +64,7 @@ int main ( int argc, char *argv[] )
                       }
                       else {
                           printf("The port number is not correct.\n");
-                          exit(FAILURE);
+                          exit(FALSE);
                       }
             case ':': fprintf(stderr, "%s: option '-%c' requires an argument\n",
                               argv[0], optopt);
@@ -75,14 +74,14 @@ int main ( int argc, char *argv[] )
                      break;
         }
     }
-    if ((do_add == SUCCESS) && (ip == SUCCESS) && (id == SUCCESS) && \
-            (name == SUCCESS) && (port != FALSE)) {
+    if ((do_option == SUCCESS) && (do_option == 3) && (do_option == 4) && \
+            (do_option == 5) && (port != FALSE)) {
         add_list(uid, tcp_name, ip_address, port);
     }
-    else if((do_read == SUCCESS) && (ip == SUCCESS) && (port != FALSE)) {
+    else if((do_option == 1) && (do_option == 5) && (port != FALSE)) {
         read_list(ip_address, port);
     }
-    else if((do_delete == SUCCESS) && (name == SUCCESS) && (ip == SUCCESS) && \
+    else if((do_option == 2) && (do_option == 4) && (do_option == 5) && \
             (port != FALSE)) {
         del_list(tcp_name, ip_address, port);
     }
@@ -92,7 +91,7 @@ int main ( int argc, char *argv[] )
         printf("./exe_file -a -d uuid -n name -i ip -p port->adding entry.\n");
         printf("./exe_file -l -i ip -p port->reading entry.\n");
         printf("./exe_file -r -n name -i ip -p port->deleting entry.\n");
-        exit(FAILURE);
+        exit(FALSE);
     }
     return 0;
 }

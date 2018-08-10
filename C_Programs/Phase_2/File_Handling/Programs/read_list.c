@@ -23,7 +23,10 @@
  */
 void read_list(char *ip_address, int port)
 {
-    port1 = 0;
+    FILE *fp;
+    int port1 = 0, flag;
+    char uid[ID_LENGTH], uname[NAME_LENGTH], ip_addr[IP_LENGTH], \
+        str[STR_LENGTH];
     uid[0] = '\0';
     uname[0] = '\0';
     ip_addr[0] = '\0';
@@ -34,7 +37,8 @@ void read_list(char *ip_address, int port)
     if (fp == NULL)
     {
         fprintf(stderr, "Error opening file.\n");
-        exit(FAILURE);
+        fclose(fp);
+        exit(FALSE);
     }
     while(fgets(str, STR_LENGTH, fp) != SUCCESS) {
         sscanf(str,"uuid = %s name = %s ip = %s port = %d\n", uid, uname,
@@ -57,7 +61,8 @@ void read_list(char *ip_address, int port)
     if (flag != SUCCESS) {
         printf("There is no such data present in the list.\n");
         free(temp);
-        exit(FAILURE);
+        fclose(fp);
+        exit(FALSE);
     }
     fclose(fp);
     free(temp);

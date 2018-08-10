@@ -25,9 +25,11 @@
  */
 void del_list(char *tcp_name, char *ip_address, int port)
 {
-    FILE *fp1;
+    FILE *fp1, *fp;
+    char uname[NAME_LENGTH], ip_addr[IP_LENGTH], uid[ID_LENGTH], \
+        str[STR_LENGTH];
+    int port1 = 0, flag;
 
-    port1 = 0;
     uid[0] = '\0';
     uname[0] = '\0';
     ip_addr[0] = '\0';
@@ -39,7 +41,9 @@ void del_list(char *tcp_name, char *ip_address, int port)
     if (fp == NULL)
     {
         fprintf(stderr, "Error opening file.\n");
-        exit(FAILURE);
+        fclose(fp);
+        fclose(fp1);
+        exit(FALSE);
     }
     /* Checking if the entry is present in the list */
     while(fgets(str, STR_LENGTH, fp) != SUCCESS) {
@@ -72,7 +76,7 @@ void del_list(char *tcp_name, char *ip_address, int port)
         remove("tcpserver.txt");
         rename("sample.txt", "tcpserver.txt");
         free(temp);
-        exit(FAILURE);
+        exit(FALSE);
     }
     fclose(fp);
     fclose(fp1);

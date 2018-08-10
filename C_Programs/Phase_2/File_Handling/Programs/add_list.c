@@ -26,6 +26,9 @@
  */
 void add_list(char* id, char* tcp_name, char* ip_address, int port)
 {
+    FILE *fp;
+    char uid[ID_LENGTH], str[STR_LENGTH];
+
     temp = NULL;
     uid[0] = '\0';
 
@@ -44,7 +47,8 @@ void add_list(char* id, char* tcp_name, char* ip_address, int port)
         sscanf(str,"uuid = %s\n",uid);
         if(strcmp(uid, id) == SUCCESS) {
             printf("There is already an element with this uuid.\n");
-            exit(FAILURE);
+            fclose(fp);
+            exit(FALSE);
         }
     }
     temp = calloc(1, sizeof(linked_t));
@@ -52,7 +56,8 @@ void add_list(char* id, char* tcp_name, char* ip_address, int port)
     {
         printf("Failed to insert element. Out of memory");
         free(temp);
-        exit(FAILURE);
+        fclose(fp);
+        exit(FALSE);
     }
     temp->server_port = port;
     temp->uuid = (char*)calloc(1, (strlen(id) + 1)*sizeof(char));
