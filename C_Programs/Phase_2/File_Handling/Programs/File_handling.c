@@ -18,27 +18,29 @@ int main ( int argc, char *argv[] )
     char tcp_name[NAME_LENGTH], uid[ID_LENGTH], ip_address[IP_LENGTH];
 
     static struct option long_option[] = {
-        {"add", no_argument, 0 , 'a'},
-        {"read", no_argument, 0, 'l'},
-        {"delete", no_argument, 0 , 'r'},
+        {"add", no_argument, 0 , 'A'},
+        {"read", no_argument, 0, 'R'},
+        {"delete", no_argument, 0 , 'D'},
         {"id", required_argument, 0, 'd'},
         {"name", required_argument, 0, 'n'},
         {"ip", required_argument, 0, 'i'},
         {"port", required_argument, 0 ,'p'},
         {0, 0, 0, 0}
     };
-    while ((option = getopt_long(argc, argv, ":arli:n:p:d:", long_option,
+    while ((option = getopt_long(argc, argv, ":ARDi:n:p:d:", long_option,
                     &long_index)) != FALSE) {
         switch(option) {
-            case 'a': do_option = 0;
+            case 'A': do_option = 1;
                       break;
-            case 'l': do_option = 1;
+            case 'R': do_option = 1;
+                      do_option = do_option << 1;
                       break;
-            case 'r': do_option = 2;
+            case 'D': do_option = 2;
+                      do_option = do_option << 1;
                       break;
             case 'd': if ((id_valid(optarg)) == SUCCESS && \
                               (strlen(optarg) == ID_LENGTH - 1)) {
-                          do_option = 3;
+                          do_option = do_option | 0x8;
                           strncpy(uid, optarg, strlen(optarg) + 1);
                           break;
                       }
@@ -46,11 +48,11 @@ int main ( int argc, char *argv[] )
                           printf("The entered id is not correct.\n");
                           exit(FALSE);
                       }
-            case 'n': do_option = 4;
+            case 'n': do_option = do_option | 0x10;
                       strncpy(tcp_name, optarg, strlen(optarg) + 1);
                       break;
             case 'i': if (ip_valid(optarg) == SUCCESS) {
-                          do_option = 5;
+                          do_option = do_option | 0x20;
                           strncpy(ip_address, optarg, strlen(optarg) + 1);
                           break;
                       }
@@ -59,6 +61,7 @@ int main ( int argc, char *argv[] )
                           exit(FALSE);
                       }
             case 'p': if (port_valid(optarg) == SUCCESS) {
+                          do_option = do_option | 0x40;
                           port = atoi(optarg);
                           break;
                       }
@@ -74,23 +77,27 @@ int main ( int argc, char *argv[] )
                      break;
         }
     }
-    if ((do_option == SUCCESS) && (do_option == 3) && (do_option == 4) && \
-            (do_option == 5) && (port != FALSE)) {
-        add_list(uid, tcp_name, ip_address, port);
+    if (do_option == 0x79) {
+        if(add_list(uid, tcp_name, ip_address, port) != SUCCESS) {
+            exit(FALSE);
+        }
     }
-    else if((do_option == 1) && (do_option == 5) && (port != FALSE)) {
-        read_list(ip_address, port);
+    else if(do_option == 0x62) {
+        if(read_list(ip_address, port) != SUCCESS) {
+            exit(FALSE);
+        }
     }
-    else if((do_option == 2) && (do_option == 4) && (do_option == 5) && \
-            (port != FALSE)) {
-        del_list(tcp_name, ip_address, port);
+    else if(do_option == 0x74) {
+        if(del_list(tcp_name, ip_address, port) != SUCCESS) {
+            exit(FALSE);
+        }
     }
     else {
         printf("There is error in argument passing or there is error in the"
                 " command.\n");
-        printf("./exe_file -a -d uuid -n name -i ip -p port->adding entry.\n");
-        printf("./exe_file -l -i ip -p port->reading entry.\n");
-        printf("./exe_file -r -n name -i ip -p port->deleting entry.\n");
+        printf("./exe_file -A -d uuid -n name -i ip -p port->adding entry.\n");
+        printf("./exe_file -R -i ip -p port->reading entry.\n");
+        printf("./exe_file -D -n name -i ip -p port->deleting entry.\n");
         exit(FALSE);
     }
     return 0;

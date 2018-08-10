@@ -56,12 +56,10 @@ linked_t *temp;
 #define IP_MAX 255
 #define STR_LENGTH 100
 
-void add_list(char* id, char* tcp_name, char* ip_address, \
+int add_list(char* id, char* tcp_name, char* ip_address, \
               int port);
-void del_list(char* tcp_name, char* ip_address, int port);
-void read_list(char* ip_address, int port);
+int del_list(char* tcp_name, char* ip_address, int port);
+int read_list(char* ip_address, int port);
 int ip_valid(char* ip_address);
 int port_valid(char* port);
 int id_valid(char* id);
-
-//char uid[ID_LENGTH], uname[NAME_LENGTH], ip_addr[IP_LENGTH], str[STR_LENGTH];

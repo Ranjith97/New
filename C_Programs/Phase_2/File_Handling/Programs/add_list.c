@@ -23,8 +23,9 @@
  *                   server port number to the file and also checks if the
  *                   given entry is already present in the list or not
  * @caller         : main
+ * @return value   : an integer value which shows the status of the function
  */
-void add_list(char* id, char* tcp_name, char* ip_address, int port)
+int add_list(char* id, char* tcp_name, char* ip_address, int port)
 {
     FILE *fp;
     char uid[ID_LENGTH], str[STR_LENGTH];
@@ -32,6 +33,8 @@ void add_list(char* id, char* tcp_name, char* ip_address, int port)
     temp = NULL;
     uid[0] = '\0';
 
+    /* Checking if there is already a file present or else it would create the
+     * file and then proceeds */
     fp=fopen("tcpserver.txt", "r");
     if (fp == NULL) {
         printf("There is no file called tcpserver.txt so it's creating that"\
@@ -48,7 +51,7 @@ void add_list(char* id, char* tcp_name, char* ip_address, int port)
         if(strcmp(uid, id) == SUCCESS) {
             printf("There is already an element with this uuid.\n");
             fclose(fp);
-            exit(FALSE);
+            return FALSE;
         }
     }
     temp = calloc(1, sizeof(linked_t));
@@ -57,8 +60,10 @@ void add_list(char* id, char* tcp_name, char* ip_address, int port)
         printf("Failed to insert element. Out of memory");
         free(temp);
         fclose(fp);
-        exit(FALSE);
+        return FALSE;
     }
+    /* Dynamically allocating memory and copying data from temproary variables
+     * to structure member*/
     temp->server_port = port;
     temp->uuid = (char*)calloc(1, (strlen(id) + 1)*sizeof(char));
     strcpy(temp->uuid, id);
@@ -73,4 +78,5 @@ void add_list(char* id, char* tcp_name, char* ip_address, int port)
     fclose(fp);
     printf("The entry is added to the file correctly.\n");
     free(temp);
+    return SUCCESS;
 }

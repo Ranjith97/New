@@ -20,8 +20,9 @@
  *                   number is present in the list or not and prints the details
  *                   if the entry is present in the list
  * @caller         : main
+ * @return value   : an integer value which shows the status of the function
  */
-void read_list(char *ip_address, int port)
+int read_list(char *ip_address, int port)
 {
     FILE *fp;
     int port1 = 0, flag;
@@ -38,7 +39,7 @@ void read_list(char *ip_address, int port)
     {
         fprintf(stderr, "Error opening file.\n");
         fclose(fp);
-        exit(FALSE);
+        return FALSE;
     }
     while(fgets(str, STR_LENGTH, fp) != SUCCESS) {
         sscanf(str,"uuid = %s name = %s ip = %s port = %d\n", uid, uname,
@@ -62,8 +63,9 @@ void read_list(char *ip_address, int port)
         printf("There is no such data present in the list.\n");
         free(temp);
         fclose(fp);
-        exit(FALSE);
+        return FALSE;
     }
     fclose(fp);
     free(temp);
+    return SUCCESS;
 }

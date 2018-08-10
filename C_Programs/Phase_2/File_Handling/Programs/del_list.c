@@ -22,8 +22,9 @@
  *                   the list or not and deletes that particular entry if it is
  *                   present
  * @caller         : main
+ * @return value   : an integer value which shows the status of the function
  */
-void del_list(char *tcp_name, char *ip_address, int port)
+int del_list(char *tcp_name, char *ip_address, int port)
 {
     FILE *fp1, *fp;
     char uname[NAME_LENGTH], ip_addr[IP_LENGTH], uid[ID_LENGTH], \
@@ -43,7 +44,7 @@ void del_list(char *tcp_name, char *ip_address, int port)
         fprintf(stderr, "Error opening file.\n");
         fclose(fp);
         fclose(fp1);
-        exit(FALSE);
+        return FALSE;
     }
     /* Checking if the entry is present in the list */
     while(fgets(str, STR_LENGTH, fp) != SUCCESS) {
@@ -73,15 +74,18 @@ void del_list(char *tcp_name, char *ip_address, int port)
         printf("There is no such data present in the list.\n");
         fclose(fp);
         fclose(fp1);
+        /* Rename the new file into old file after removing the old file */
         remove("tcpserver.txt");
         rename("sample.txt", "tcpserver.txt");
         free(temp);
-        exit(FALSE);
+        return FALSE;
     }
     fclose(fp);
     fclose(fp1);
+    /* Rename the new file into old file after removing the old file */
     remove("tcpserver.txt");
     rename("sample.txt", "tcpserver.txt");
     printf("The data is removed successfully.\n");
     free(temp);
+    return SUCCESS;
 }
