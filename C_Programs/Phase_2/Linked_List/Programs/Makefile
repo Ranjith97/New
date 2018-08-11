@@ -7,9 +7,9 @@ SRCS = delete_end.c delete_position.c display.c domain_valid.c insert_begin.c  \
 TARG = Linked_List
 OBJS = $(SRCS:.c=.o)
 all : $(TARG)
-$(TARG) : List.h
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(TARG) $(SRCS)
-exe : $(TARG) List.h
+$(TARG) : List.h $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(TARG) $(OBJS)
+exe : all List.h
 	./$(TARG)
 .c.o :
 	$(CC) $(CFLAGS) -c -o $@ $<
