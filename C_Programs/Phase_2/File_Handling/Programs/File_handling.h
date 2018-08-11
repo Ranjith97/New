@@ -55,6 +55,9 @@ linked_t *temp;
 #define IP_MIN 0
 #define IP_MAX 255
 #define STR_LENGTH 100
+#define DO_ADD 0x79
+#define DO_READ 0x62
+#define DO_DELETE 0x74
 
 int add_list(char* id, char* tcp_name, char* ip_address, \
               int port);

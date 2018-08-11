@@ -77,17 +77,17 @@ int main ( int argc, char *argv[] )
                      break;
         }
     }
-    if (do_option == 0x79) {
+    if (do_option == DO_ADD) {
         if(add_list(uid, tcp_name, ip_address, port) != SUCCESS) {
             exit(FALSE);
         }
     }
-    else if(do_option == 0x62) {
+    else if(do_option == DO_READ) {
         if(read_list(ip_address, port) != SUCCESS) {
             exit(FALSE);
         }
     }
-    else if(do_option == 0x74) {
+    else if(do_option == DO_DELETE) {
         if(del_list(tcp_name, ip_address, port) != SUCCESS) {
             exit(FALSE);
         }
