@@ -1,10 +1,10 @@
 /**
  * @file            : insert.c
  * @brief           : This program will get the MAC id from the user and does
- *                    insertion or deletion or searching of the MAC id in the
- *                    hash table based on the user input
+ *                    insertion or deletion or searching or displaying of the
+ *                    MAC id in the hash table based on the user input
  * @author          : Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
- * @Copyright(c)    : 2012-2013 , VVDN Technologies Pvt. Ltd. Permission is
+ * @Copyright(c)    : 2012-2013, VVDN Technologies Pvt. Ltd. Permission is
  *                    hereby granted to everyone in VVDN Technologies to use
  *                    the Software without restriction, including without
  *                    limitation the rights to use, copy, modify, merge,
@@ -20,30 +20,31 @@
  *             hash function and linear probing method
  * @caller   : hash main function
  */
-void insert(long int *hash)
+void insert(int (*hash)[MAC_SIZE])
 {
-    int count = 0, count1 = 0;
+    int count = 0, count_delim = 0, iter, num = 0, check = 0, element, pos,\
+                mac[MAC_SIZE], flag = 1;
     char buffer[MACID_SIZE];
-
-    num = 0;
-    check = 0;
 
     do {
         check = 0;
+        count = 0;
+        count_delim = 0;
         printf("Enter MAC address to be added: ");
         scanf("%s", buffer);
+        /* Checking if valid MAC is entered or not */
         for (iter = 0;buffer[iter] != '\0';iter++) {
-            if (isxdigit(buffer[iter]) != FAILURE) {
+            if (isxdigit(buffer[iter]) != SUCCESS) {
                 count++;
             }
             else if ((buffer[iter] == ':') || (buffer[iter] == '-')) {
                 if ((iter == 2) || (iter == 5) || (iter == 8) || (iter == 11) ||
                         (iter == 14)) {
-                    count1++;
+                    count_delim++;
                 }
             }
         }
-        if ((count != 12) && (count1 != 5)) {
+        if ((count != 12) && (count_delim != 5)) {
             printf("The entered MAC id is not correct.\n");
             check = 0;
         }
@@ -63,32 +64,40 @@ void insert(long int *hash)
         }
         while (getchar() != '\n');
     }while (check == SUCCESS);
-            temp = (char*) calloc(1, 12 * sizeof(char));
-            /* Converting the mac array to string */
-            for (iter = 0;iter < MAC_SIZE;iter++) {
-                sprintf(arr, "%x", mac[iter]);
-                strcat(temp, arr);
-            }
-            sscanf(temp, "%ld", &mac_num);
             element = mac[0] + mac[5];
-            free(temp);
-            pos = element % HFN; /* Hash function */
-            while (hash[pos] != INT_MIN) {
-                if (hash[pos] == INT_MAX) {/* This indicaes the cell is empty */
+            pos = element % HASH_SIZE; /* Hash function */
+            while (hash[pos][0] != INT_MIN) {
+                count = 0;
+                for (iter = 0;iter < MAC_SIZE;iter++) {
+                    if (hash[pos][iter] == mac[iter]) {
+                        count++;
+                    }
+                }
+                if (count == MAC_SIZE) {
+                    printf("There is already an element with this mac id.\n");
+                    flag = 0;
                     break;
                 }
-                pos = (pos + 1) % HFN;
+                /* This indicaes the cell is empty */
+                if (hash[pos][0] == INT_MAX) {
+                    break;
+                }
+                /* Traversing to next position if the present position is
+                 * already occupied */
+                pos = (pos + 1) % HASH_SIZE;
                 num++;
-                if (num == SIZE) { /* This indiactes the table is full */
+                if (num == HASH_SIZE) { /* This indiactes the table is full */
                     break;
                 }
             }
-            if(num == SIZE) {
+            if(num == HASH_SIZE) {
                 printf("Hash table was full of elements\nNo Place to insert " \
                         "this element\n\n");
             }
-            else { /* Inserting the element */
-                hash[pos] = mac_num;
+            else if (flag != SUCCESS) { /* Inserting the element */
+                for (iter = 0;iter < MAC_SIZE;iter++) {
+                    hash[pos][iter] = mac[iter];
+                }
                 printf("The MAC is inserted successfully.\n\n");
             }
 }
