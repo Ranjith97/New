@@ -22,10 +22,8 @@
  */
 int input(employee_t *head)
 {
-    int choice, time = 0;
-    employee_t *temp = head;
-
-    choice = 0;
+    int time = 0, choice = 0;
+    employee_t *temp = head, *new_node = head;
 
     if(time == 0) {
         while(getchar() != '\n');

@@ -22,8 +22,7 @@
 void delete_position(int position) {
     employee_t *temp = head;
     employee_t *del_ptr = head;
-    int prev_loc = 0;
-    count = 0;
+    int prev_loc = 0, count = 0;
     /* Counting the number of elements */
     while (temp != NULL) {
         temp = temp->next;

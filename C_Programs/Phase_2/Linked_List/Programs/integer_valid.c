@@ -23,12 +23,8 @@
  */
 int integer_valid()
 {
-    int input;
-
-    flag = 1;
-    input = 0;
-    count = 0;
-    check = 0;
+    int flag = 1, input = 0, count = 0, check = 0;
+    char valid;
 
     do {
         if (count < COUNT) {

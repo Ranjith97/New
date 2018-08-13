@@ -23,8 +23,7 @@
 void insert_position(int position) {
     employee_t *temp = head;
     employee_t *previous = head;
-    int prev_loc = 0;
-    count = 0;
+    int prev_loc = 0, count = 0;
     /* Counting the number of elements in the list */
     while (temp != NULL) {
         temp = temp->next;

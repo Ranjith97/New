@@ -8,7 +8,7 @@ TARG = Linked_List
 OBJS = $(SRCS:.c=.o)
 all : $(TARG)
 $(TARG) : List.h $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(TARG) $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(TARG) $(SRCS)
 exe : all List.h
 	./$(TARG)
 .c.o :

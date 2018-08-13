@@ -21,7 +21,7 @@
 void display()
 {
     employee_t *temp = head;
-    count = 0;
+    int count = 0;
     /* Traverse and display elements in list */
     while (temp != NULL) {
         printf("\nThe name of the employee is : %s\n", temp->name);

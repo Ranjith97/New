@@ -20,7 +20,6 @@
 #include <linux/cdev.h>
 #include <linux/init.h>
 #include <linux/uaccess.h>
-#include <linux/slab.h>
 
 #define FST_MINOR 0
 #define MINOR_RANGE 1
@@ -34,19 +33,19 @@ char message[BUF_SIZE];
 static dev_t first;
 static struct class *cl;
 static struct cdev c_dev;
-struct device *dev_ret;
 
-int my_open(struct inode *i, struct file *f)
+static int my_open(struct inode *i, struct file *f)
 {
     printk(KERN_INFO "Driver open\n");
     return SUCCESS;
 }
-int my_release(struct inode *i, struct file *f)
+static int my_release(struct inode *i, struct file *f)
 {
     printk(KERN_INFO "Driver close\n");
     return SUCCESS;
 }
-ssize_t my_read(struct file *f, char __user *buf, size_t len, loff_t *off)
+static ssize_t my_read(struct file *f, char __user *buf, size_t len, \
+        loff_t *off)
 {
     sprintf(message, "sum=%d sub=%d product=%d div=%d", add, sub, mul, div);
     if (copy_to_user(buf, message, sizeof(message)) == SUCCESS) {
@@ -54,10 +53,10 @@ ssize_t my_read(struct file *f, char __user *buf, size_t len, loff_t *off)
         return SUCCESS;
     }
     else {
-        return -EFAULT;
+        return FALSE;
     }
 }
-ssize_t my_write(struct file *f, const char __user *buf, size_t len, \
+static ssize_t my_write(struct file *f, const char __user *buf, size_t len, \
         loff_t *off)
 {
     sscanf(buf, "%d %d", &num1, &num2);
@@ -68,7 +67,7 @@ ssize_t my_write(struct file *f, const char __user *buf, size_t len, \
     return SUCCESS;
 }
 
-struct file_operations fops = {
+static struct file_operations fops = {
     .owner = THIS_MODULE,
     .open = my_open,
     .release = my_release,
@@ -81,21 +80,11 @@ static int __init my_init(void)
     if ((alloc_chrdev_region(&first, FST_MINOR, MINOR_RANGE, "drvalloc")) \
             < ERR) {
         printk(KERN_INFO "Allocation of char driver failed.\n");
-        return -EFAULT;
+        return FALSE;
     }
-    if (IS_ERR(cl = class_create(THIS_MODULE, "Chardriverclass"))) {
-        printk(KERN_INFO "Chardriverclass error.\n");
-        unregister_chrdev_region(first, MINOR_RANGE);
-        return PTR_ERR(cl);
-    }
-    if (IS_ERR(dev_ret = device_create(cl, NULL, first, NULL, "mydriver"))) {
-        printk(KERN_INFO "Device creation error.\n");
-        class_destroy(cl);
-        unregister_chrdev_region(first, MINOR_RANGE);
-        return PTR_ERR(dev_ret);
-    }
-
     cdev_init(&c_dev, &fops);
+    c_dev.owner = THIS_MODULE;
+    c_dev.ops = &fops;
     if ((cdev_add(&c_dev, first, MINOR_RANGE)) < ERR) {
         printk(KERN_INFO "Device addition error.\n");
         device_destroy(cl, first);
@@ -103,6 +92,18 @@ static int __init my_init(void)
         unregister_chrdev_region(first, MINOR_RANGE);
         return FALSE;
     }
+    if ((cl = class_create(THIS_MODULE, "Chardriverclass")) == NULL) {
+        printk(KERN_INFO "Chardriverclass error.\n");
+        unregister_chrdev_region(first, MINOR_RANGE);
+        return FALSE;
+    }
+    if ((device_create(cl, NULL, first, NULL, "mydriver")) == NULL) {
+        printk(KERN_INFO "Device creation error.\n");
+        class_destroy(cl);
+        unregister_chrdev_region(first, MINOR_RANGE);
+        return FALSE;
+    }
+
     return SUCCESS;
 }
 

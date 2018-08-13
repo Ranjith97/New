@@ -23,9 +23,7 @@
 void name_valid()
 {
     char buffer[NAME_LENGTH];
-
-    count = 0;
-    flag = 1;
+    int count = 0, flag = 1, loop;
 
     do {
         if (count < COUNT) {

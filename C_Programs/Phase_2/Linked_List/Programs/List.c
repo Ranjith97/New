@@ -15,9 +15,7 @@
 
 int main()
 {
-    int option, data = 0;
-    position = 0;
-    head = NULL;
+    int option, data = 0, position = 0;
 
     /* Getting the input values from the user */
 	do {
@@ -60,11 +58,5 @@ int main()
 		}
 	}while (TRUE);
     /* Freeing the allocated memories */
-    free(new_node->name);
-    free(new_node->DOB);
-    free(new_node->domain);
-    free(new_node->prev);
-    free(new_node->next);
-    free(new_node);
 	return SUCCESS;
 }

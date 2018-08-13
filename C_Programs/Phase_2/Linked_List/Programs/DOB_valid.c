@@ -21,11 +21,8 @@
  */
 void DOB_valid()
 {
-    int buffer[INT_LENGTH];
-
-    count = 0;
-    flag = 1;
-    check = 0;
+    int buffer[INT_LENGTH], count = 0, flag = 1, check = 0, loop;
+    char valid;
 
     do {
         if (count < COUNT) {

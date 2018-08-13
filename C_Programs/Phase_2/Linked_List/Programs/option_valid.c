@@ -23,12 +23,8 @@
  */
 int option_valid()
 {
-    int input;
-
-    flag = 1;
-    input = 0;
-    count = 0;
-    check = 0;
+    int input = 0, flag = 1, count = 0, check = 0;
+    char valid;
 
     do {
         if (count < COUNT) {

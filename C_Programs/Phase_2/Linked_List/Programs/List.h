@@ -27,7 +27,7 @@
 #define YEAR_MAX 98
 #define DOMAIN_LENGTH 2
 #define SUCCESS 0
-#define FAILURE 0
+#define FAILURE -1
 #define TRUE 1
 #define COUNT 3
 #define NEWLINE '\n'
@@ -78,5 +78,3 @@ int domain_valid();
 int option_valid();
 
 employee_t *head, *new_node;
-int flag, count, check, loop, position;
-char valid;

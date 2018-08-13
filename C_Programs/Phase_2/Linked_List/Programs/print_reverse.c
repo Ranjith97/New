@@ -21,7 +21,7 @@
 void print_reverse()
 {
 	employee_t *temp = head;
-    count = 0;
+    int count = 0;
 	/* Traverse to end */
 	if (temp != NULL) {
         while (temp->next != NULL) {
