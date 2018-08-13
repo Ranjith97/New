@@ -19,6 +19,7 @@
  * @caller   : delete_position
  */
 void delete_end() {
+    //employee_t *toDelete = NULL;
     employee_t *toDelete = NULL;
 
     if(head == NULL)
