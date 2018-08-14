@@ -1,11 +1,11 @@
 /*
- * @file       		: process.c
- * @brief      		: This file contains souce code for creating 5 child
+ * @file            : process.c
+ * @brief           : This file contains souce code for creating 5 child
  *                    processes from a single parent, then generate object file
  *                    for a 5 different C files in each child. And then link
  *                    the 5 object files in 6th child and execute that file in
  *                    7th child.
- * @author     		: Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
+ * @author          : Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
  * @Copyright(c)    : 2012-2013, VVDN Technologies Pvt. Ltd. Permission is
  *                    hereby granted to everyone in VVDN Technologies to use
  *                    the Software without restriction, including without

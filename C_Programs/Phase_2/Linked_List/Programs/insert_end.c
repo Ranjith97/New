@@ -20,7 +20,7 @@
  */
 void insert_end()
 {
-    employee_t *new_node = (employee_t*)calloc(1, sizeof(employee_t));
+    new_node = (employee_t*)calloc(1, sizeof(employee_t));
     //details = new_node;
     /* Element is inserted only when there is no duplicate element already
      * present in the list */

@@ -32,7 +32,7 @@ void delete_position(int position) {
     del_ptr = head;
     if (count > position && position != 1) {
         /* Traversing till the position is reached */
-        while (prev_loc < position - 2) {
+        while (prev_loc < position - 1) {
             del_ptr = del_ptr->next;
             prev_loc++;
         }

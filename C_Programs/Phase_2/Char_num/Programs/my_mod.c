@@ -1,5 +1,5 @@
 /**
- * @file            : module.c
+ * @file            : my_mod.c
  * @brief           : This module will do the arithmetic operations in the
  *                    kernel level
  * @author          : Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
@@ -34,39 +34,75 @@ static dev_t first;
 static struct class *cl;
 static struct cdev c_dev;
 
+/**
+ * @function    : my_open
+ * @param1      : inode structure pointer
+ * @param2      : file structure pointer
+ * @Brief       : This function opens the Device file.
+ */
 static int my_open(struct inode *i, struct file *f)
 {
-    printk(KERN_INFO "Driver open\n");
+    printk(KERN_ALERT "Driver open\n");
     return SUCCESS;
 }
+
+/**
+ * @function    : my_release
+ * @param1      : inode structure pointer
+ * @param2      : file structure pointer
+ * @Brief       : This function closes the device file.
+ */
 static int my_release(struct inode *i, struct file *f)
 {
-    printk(KERN_INFO "Driver close\n");
+    printk(KERN_ALERT "Driver close\n");
     return SUCCESS;
 }
+
+/**
+ * @function    : my read
+ * @param1      : file structure pointer
+ * @param2      : character buffer
+ * @param3      : length of buffer
+ * @param4      : offset of file
+ * @brief       : This function sends data from kernel space to user space.
+ */
 static ssize_t my_read(struct file *f, char __user *buf, size_t len, \
         loff_t *off)
 {
     sprintf(message, "sum=%d sub=%d product=%d div=%d", add, sub, mul, div);
     if (copy_to_user(buf, message, sizeof(message)) == SUCCESS) {
-        printk(KERN_INFO "The result has been sent.\n");
+        printk(KERN_ALERT "The result has been sent.\n");
+        memset(message, '\0', sizeof(message));
         return SUCCESS;
     }
     else {
+        memset(message, '\0', sizeof(message));
         return FALSE;
     }
 }
+
+/**
+ * @function    : my_write
+ * @param1      : file structure pointer
+ * @param2      : character buffer
+ * @param3      : length of buffer
+ * @param4      : offset of file
+ * @brief       : This function receives data from user to kernel level.
+ */
 static ssize_t my_write(struct file *f, const char __user *buf, size_t len, \
         loff_t *off)
 {
-    sscanf(buf, "%d %d", &num1, &num2);
+    copy_from_user(message, buf, sizeof(buf));
+    sscanf(message, "%d %d", &num1, &num2);
     add = num1 + num2;
     sub = num1 - num2;
     mul = num1 * num2;
     div = num1 / num2;
+    memset(message, '\0', sizeof(message));
     return SUCCESS;
 }
 
+/* File operations structure */
 static struct file_operations fops = {
     .owner = THIS_MODULE,
     .open = my_open,
@@ -75,25 +111,29 @@ static struct file_operations fops = {
     .write = my_write
 };
 
+/**
+ * @function    : my_init
+ * @brief       : This function initiates the character device driver.
+ */
 static int __init my_init(void)
 {
     if ((alloc_chrdev_region(&first, FST_MINOR, MINOR_RANGE, "drvalloc")) \
             < ERR) {
-        printk(KERN_INFO "Allocation of char driver failed.\n");
+        printk(KERN_ALERT "Allocation of char driver failed.\n");
         return FALSE;
     }
     cdev_init(&c_dev, &fops);
     c_dev.owner = THIS_MODULE;
     c_dev.ops = &fops;
     if ((cdev_add(&c_dev, first, MINOR_RANGE)) < ERR) {
-        printk(KERN_INFO "Device addition error.\n");
+        printk(KERN_ALERT "Device addition error.\n");
         device_destroy(cl, first);
         class_destroy(cl);
         unregister_chrdev_region(first, MINOR_RANGE);
         return FALSE;
     }
     if ((cl = class_create(THIS_MODULE, "Chardriverclass")) == NULL) {
-        printk(KERN_INFO "Chardriverclass error.\n");
+        printk(KERN_ALERT "Chardriverclass error.\n");
         unregister_chrdev_region(first, MINOR_RANGE);
         return FALSE;
     }
@@ -107,6 +147,10 @@ static int __init my_init(void)
     return SUCCESS;
 }
 
+/**
+ * @function    : my_exit
+ * @Brief       : This function is the destructor for the driver.
+ */
 static void __exit my_exit(void)
 {
     cdev_del(&c_dev);

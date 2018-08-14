@@ -58,5 +58,9 @@ int main()
 		}
 	}while (TRUE);
     /* Freeing the allocated memories */
+    free(new_node->domain);
+    free(new_node->DOB);
+    free(new_node->name);
+    free(new_node);
 	return SUCCESS;
 }

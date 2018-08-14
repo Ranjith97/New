@@ -1,1 +1,0 @@
-cmd_/home/ranjith/git/C_Programs/Phase_2/Char_num/Programs/module.ko := ld -r -m elf_i386 -T ./scripts/module-common.lds --build-id  -o /home/ranjith/git/C_Programs/Phase_2/Char_num/Programs/module.ko /home/ranjith/git/C_Programs/Phase_2/Char_num/Programs/module.o /home/ranjith/git/C_Programs/Phase_2/Char_num/Programs/module.mod.o
