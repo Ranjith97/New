@@ -1,0 +1,1 @@
+cmd_/home/vvdn/git/C_Programs/Phase_2/Char_mac/Programs/macaddr.ko := ld -r -m elf_x86_64 -z max-page-size=0x200000 -T ./scripts/module-common.lds --build-id  -o /home/vvdn/git/C_Programs/Phase_2/Char_mac/Programs/macaddr.ko /home/vvdn/git/C_Programs/Phase_2/Char_mac/Programs/macaddr.o /home/vvdn/git/C_Programs/Phase_2/Char_mac/Programs/macaddr.mod.o ;  true

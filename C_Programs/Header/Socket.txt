@@ -1,0 +1,42 @@
+Server
+#include<unistd.h>
+#include<stdio.h>
+#include<sys/socket.h>
+#include<stdlib.h>
+#include<netinet/in.h>
+#include<pthread.h>
+#include<string.h>
+
+/* This will broadcasts the message */
+send(new_socket, buffer, htonl(strlen(buffer)) , 0 );
+read(new_socket, buffer, 1024); 
+
+struct sockaddr_in address;
+socket(AF_INET, SOCK_STREAM, 0)
+setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)
+address.sin_family = AF_INET;
+address.sin_addr.s_addr = INADDR_ANY;
+address.sin_port = htons( PORT );
+bind(server_fd, (struct sockaddr *)&address, sizeof(address)
+listen(server_fd, 3)
+new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)
+/* Creating the two threads for listening and writing */
+pthread_create(&thread_id[i++][0],NULL,clients,&new_socket);
+pthread_create(&thread_id[i++][1],NULL,clientListen,&new_socket);
+
+Client
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/socket.h>
+#include<stdlib.h>
+#include<netinet/in.h>
+#include<pthread.h>
+#include<arpa/inet.h>
+#include<string.h>
+
+/* Writing the message to the server */
+write(sock,hello,htonl(strlen(hello)));
+read(sock, buffer, 1024);
+inet_pton(AF_INET, "192.168.101.148", &serv_addr.sin_addr)
+connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr))
+

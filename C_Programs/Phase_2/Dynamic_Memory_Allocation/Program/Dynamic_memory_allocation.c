@@ -17,6 +17,10 @@ int main()
 {
     input();
     output();
+    free(details->domain);
+    free(details->DOB);
+    free(details->name);
+    free(details);
     return SUCCESS;
 }
 

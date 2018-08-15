@@ -77,6 +77,9 @@ int add_list(char* id, char* tcp_name, char* ip_address, int port)
             temp->name, temp->ip, temp->server_port);
     fclose(fp);
     printf("The entry is added to the file correctly.\n");
+    free(temp->uuid);
+    free(temp->name);
+    free(temp->ip);
     free(temp);
     return SUCCESS;
 }

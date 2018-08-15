@@ -1,0 +1,11 @@
+#include <linux/module.h>
+#include <linux/netdevice.h>
+#include <net/net_namespace.h>
+
+struct net_device *dev;
+static int __init my_init(void)
+alloc_chrdev_region(&first, FIRST_OF_RANGE, RANGE, "driver")
+dev = __dev_get_by_name(&init_net,"wlp6s0");
+static void __exit my_exit(void)
+unregister_chrdev_region(first, MINOR_NUM);
+

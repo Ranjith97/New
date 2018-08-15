@@ -61,11 +61,17 @@ int read_list(char *ip_address, int port)
     }
     if (flag != SUCCESS) {
         printf("There is no such data present in the list.\n");
+        free(temp->uuid);
+        free(temp->ip);
+        free(temp->name);
         free(temp);
         fclose(fp);
         return FALSE;
     }
     fclose(fp);
+    free(temp->uuid);
+    free(temp->ip);
+    free(temp->name);
     free(temp);
     return SUCCESS;
 }

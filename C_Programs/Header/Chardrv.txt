@@ -1,0 +1,64 @@
+#include <linux/module.h>
+#include <linux/version.h>
+#include <linux/kernel.h>
+#include <linux/types.h>
+#include <linux/kdev_t.h>
+#include <linux/fs.h>
+#include <linux/device.h>
+#include <linux/cdev.h>
+#include <linux/init.h>
+#include <linux/uaccess.h>
+#include <linux/mutex.h>
+static dev_t first;
+static struct class *cl;
+static struct cdev c_dev;
+static DEFINE_MUTEX(mut_lock);
+static int my_open(struct inode *i, struct file *f)
+mutex_trylock(&mut_lock);
+static int my_release(struct inode *i, struct file *f)
+mutex_unlock(&mut_lock);
+static ssize_t my_read(struct file *f, char __user *buf, size_t len, loff_t *off)
+copy_to_user(buf, message, sizeof(message);
+static ssize_t my_write(struct file *f, const char __user *buf, size_t len, loff_t *off)
+copy_from_user(message, buf, sizeof(buf));
+static struct file_operations fops = {
+    .owner = THIS_MODULE,
+    .open = my_open,
+    .release = my_release,
+    .read = my_read,
+    .write = my_write
+};
+static int __init my_init(void)
+mutex_init(&mut_lock);
+alloc_chrdev_region(&first, FST_MINOR, MINOR_RANGE, "drvalloc")
+cdev_init(&c_dev, &fops);
+c_dev.owner = THIS_MODULE;
+c_dev.ops = &fops;
+cdev_add(&c_dev, first, MINOR_RANGE)
+cl = class_create(THIS_MODULE, "Chardriverclass")
+device_create(cl, NULL, first, NULL, "mydriver")
+static void __exit my_exit(void)
+{
+    cdev_del(&c_dev);
+    device_destroy(cl, first);
+    class_destroy(cl);
+    unregister_chrdev_region(first, MINOR_RANGE);
+    mutex_destroy(&mut_lock);
+}
+MODULE_LICENSE("GPL");
+
+module_init(my_init);
+module_exit(my_exit);
+
+
+usr app
+#include<stdio.h>
+#include<string.h>
+#include<unistd.h>
+#include<ctype.h>
+#include<stdlib.h>
+#include<fcntl.h>
+fd = open("/dev/mydriver", O_RDWR);
+write(fd, number, sizeof(number));
+read(fd, number, sizeof(number));
+

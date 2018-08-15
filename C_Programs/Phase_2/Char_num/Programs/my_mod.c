@@ -20,6 +20,7 @@
 #include <linux/cdev.h>
 #include <linux/init.h>
 #include <linux/uaccess.h>
+#include <linux/mutex.h>
 
 #define FST_MINOR 0
 #define MINOR_RANGE 1
@@ -33,6 +34,7 @@ char message[BUF_SIZE];
 static dev_t first;
 static struct class *cl;
 static struct cdev c_dev;
+static DEFINE_MUTEX(mut_lock);
 
 /**
  * @function    : my_open
@@ -42,6 +44,10 @@ static struct cdev c_dev;
  */
 static int my_open(struct inode *i, struct file *f)
 {
+    if (!mutex_trylock(&mut_lock)) {
+        printk(KERN_ALERT "Driver busy.\n");
+        return -EBUSY;
+    }
     printk(KERN_ALERT "Driver open\n");
     return SUCCESS;
 }
@@ -54,6 +60,7 @@ static int my_open(struct inode *i, struct file *f)
  */
 static int my_release(struct inode *i, struct file *f)
 {
+    mutex_unlock(&mut_lock);
     printk(KERN_ALERT "Driver close\n");
     return SUCCESS;
 }
@@ -117,6 +124,7 @@ static struct file_operations fops = {
  */
 static int __init my_init(void)
 {
+    mutex_init(&mut_lock);
     if ((alloc_chrdev_region(&first, FST_MINOR, MINOR_RANGE, "drvalloc")) \
             < ERR) {
         printk(KERN_ALERT "Allocation of char driver failed.\n");
@@ -157,6 +165,7 @@ static void __exit my_exit(void)
     device_destroy(cl, first);
     class_destroy(cl);
     unregister_chrdev_region(first, MINOR_RANGE);
+    mutex_destroy(&mut_lock);
 }
 
 MODULE_LICENSE("GPL");

@@ -62,5 +62,6 @@ int main()
     free(new_node->DOB);
     free(new_node->name);
     free(new_node);
+    free(head);
 	return SUCCESS;
 }

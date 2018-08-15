@@ -54,7 +54,7 @@ void* clientListen(void *socket) {
 	int new_socket = *(int *)socket;
 	while(1) {
         /* This read from the clients */
-		read( new_socket , buffer, 1024);
+		read(new_socket, buffer, 1024);
 		sleep(1);
         memset(buffer, 0, 1024);
 	}

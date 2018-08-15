@@ -77,6 +77,9 @@ int del_list(char *tcp_name, char *ip_address, int port)
         /* Rename the new file into old file after removing the old file */
         remove("tcpserver.txt");
         rename("sample.txt", "tcpserver.txt");
+        free(temp->uuid);
+        free(temp->ip);
+        free(temp->name);
         free(temp);
         return FALSE;
     }
@@ -86,6 +89,9 @@ int del_list(char *tcp_name, char *ip_address, int port)
     remove("tcpserver.txt");
     rename("sample.txt", "tcpserver.txt");
     printf("The data is removed successfully.\n");
+    free(temp->uuid);
+    free(temp->ip);
+    free(temp->name);
     free(temp);
     return SUCCESS;
 }
