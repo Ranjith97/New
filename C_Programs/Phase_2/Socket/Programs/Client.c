@@ -1,5 +1,5 @@
 /**
- * @file            : Server.c
+ * @file            : Client.c
  * @brief           : This program will create a client which sends message to
 					  the server and reads the message from server and print
  * @author          : Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
