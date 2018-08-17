@@ -19,6 +19,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
+#include<stdint.h>
 
 #define SUCCESS 0
 #define ARRAY_SIZE 10
@@ -35,7 +36,7 @@
 #define TRUE 1
 #define CHECK_LENGTH 2
 
-int mac[ARRAY_SIZE];
+unsigned int mac[MAC_ID_LENGTH];
 
 int security_valid();
 void structure_input();
@@ -61,7 +62,7 @@ struct configuration_parameters {
     char security[SECURITY_LENGTH];
     char passphrase[PASSPHRASE_LENGTH];
     int channel_number;
-    int MAC_ID[MAC_ID_LENGTH];
+    uint8_t MAC_ID[MAC_ID_LENGTH];
 }config[ARRAY_SIZE];
 
 int main()
@@ -142,9 +143,10 @@ void structure_input()
                 printf("%2x:",config[iterator].MAC_ID[mac_iterator]);
             }
             else {
-                printf("%2x",config[iterator].MAC_ID[mac_iterator]);
+                printf("%2x\n",config[iterator].MAC_ID[mac_iterator]);
             }
         }
+        printf("%ld\n", sizeof(config[iterator].MAC_ID));
     }
 }
 
