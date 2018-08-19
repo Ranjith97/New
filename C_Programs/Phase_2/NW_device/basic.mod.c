@@ -3,7 +3,6 @@
 #include <linux/compiler.h>
 
 MODULE_INFO(vermagic, VERMAGIC_STRING);
-MODULE_INFO(name, KBUILD_MODNAME);
 
 __visible struct module __this_module
 __attribute__((section(".gnu.linkonce.this_module"))) = {
@@ -19,10 +18,23 @@ __attribute__((section(".gnu.linkonce.this_module"))) = {
 MODULE_INFO(retpoline, "Y");
 #endif
 
+static const struct modversion_info ____versions[]
+__used
+__attribute__((section("__versions"))) = {
+	{ 0x83784ea9, __VMLINUX_SYMBOL_STR(module_layout) },
+	{ 0x14a56060, __VMLINUX_SYMBOL_STR(unregister_netdev) },
+	{ 0x3063e783, __VMLINUX_SYMBOL_STR(register_netdev) },
+	{ 0xebd715c0, __VMLINUX_SYMBOL_STR(alloc_netdev_mqs) },
+	{ 0xae012a7c, __VMLINUX_SYMBOL_STR(ether_setup) },
+	{ 0xf3e93cff, __VMLINUX_SYMBOL_STR(consume_skb) },
+	{ 0x50eedeb8, __VMLINUX_SYMBOL_STR(printk) },
+	{ 0xb4390f9a, __VMLINUX_SYMBOL_STR(mcount) },
+};
+
 static const char __module_depends[]
 __used
 __attribute__((section(".modinfo"))) =
 "depends=";
 
 
-MODULE_INFO(srcversion, "6F70A3A985225B656AA3147");
+MODULE_INFO(srcversion, "83C2122C1660806344B4428");
