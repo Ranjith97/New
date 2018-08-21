@@ -1,0 +1,221 @@
+Index: Filecopy_SOCK/Client
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: Filecopy_SOCK/Client
+===================================================================
+--- Filecopy_SOCK/Client	(nonexistent)
++++ Filecopy_SOCK/Client	(working copy)
+
+Property changes on: Filecopy_SOCK/Client
+___________________________________________________________________
+Added: svn:executable
+## -0,0 +1 ##
++*
+\ No newline at end of property
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: Filecopy_SOCK/Server
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: Filecopy_SOCK/Server
+===================================================================
+--- Filecopy_SOCK/Server	(nonexistent)
++++ Filecopy_SOCK/Server	(working copy)
+
+Property changes on: Filecopy_SOCK/Server
+___________________________________________________________________
+Added: svn:executable
+## -0,0 +1 ##
++*
+\ No newline at end of property
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
+Index: Filecopy_SOCK/Test.txt
+===================================================================
+--- Filecopy_SOCK/Test.txt	(nonexistent)
++++ Filecopy_SOCK/Test.txt	(working copy)
+@@ -0,0 +1,4 @@
++hi
++lsgsag
++sgsfdsfh
++dsfhsg
+Index: Filecopy_SOCK/client.c
+===================================================================
+--- Filecopy_SOCK/client.c	(nonexistent)
++++ Filecopy_SOCK/client.c	(working copy)
+@@ -0,0 +1,78 @@
++/**
++ * @file            : client.c
++ * @brief           : This program will create a client socket and pass the file
++ *                    to copied from the server and copies the file from server
++ *                    if the file is present
++ * @author          : Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
++ * @Copyright(c)    : 2018, VVDN Technologies Pvt. Ltd. Permission is
++ *                    hereby granted to everyone in VVDN Technologies to use
++ *                    the Software without restriction, including without
++ *                    limitation the rights to use, copy, modify, merge,
++ *                    publish, distribute, distribute with modifications.
++ */
++
++#include<stdio.h>
++#include<sys/socket.h>
++#include<unistd.h>
++#include<stdlib.h>
++#include<netinet/in.h>
++#include<arpa/inet.h>
++#include<string.h>
++
++#define SUCCESS 0
++#define FAILURE -1
++#define PORT 8800
++#define LENGTH 100
++
++int main ( int argc, char *argv[] )
++{
++    struct sockaddr_in client;
++    int res = 0, filelen;
++    FILE *fp;
++    char src[10], dest[10], message[10], content[LENGTH];
++
++    if (argc != 3) {
++        printf("There is error in passing the arguments.\n");
++    }
++    memcpy(src, argv[2], strlen(argv[2])); /* Copying source filename */
++    memcpy(dest, argv[3], strlen(argv[3])); /* Copying destination filename */
++    printf("%s %s\n", src, dest);
++    /* Creating socket */
++    if((res = socket(AF_INET, SOCK_STREAM, 0))< 0) {
++        printf("Socket creation failed.\n");
++        exit(FAILURE);
++    }
++    client.sin_family = AF_INET;
++    client.sin_port = htons(PORT);
++    if (inet_pton(AF_INET, "127.0.0.1", &client.sin_addr) <= 0) {
++        printf("The entered ip address is incorrect.\n");
++        exit(FAILURE);
++    }
++    /* Connecting to the server */
++    if (connect(res, (struct sockaddr*) &client, sizeof(client)) < 0) {
++        printf("Conncetion to server has failed.\n");
++        exit(FAILURE);
++    }
++    /* Writing the source file name to server */
++    write(res, src, htonl(strlen(src)));
++    read(res, message, 2);
++    if (strcmp(message, "NO") == 0) {
++        printf("There is no such file present.\n");
++        exit(FAILURE);
++    }
++    /* Opening destination file to append data from the server */
++    if ((fp = fopen(dest, "a")) == NULL) {
++        perror("Error opening dest file.\n");
++        exit(FAILURE);
++    }
++    /* Writing the contents to destination file */
++    while ((filelen = recv(res, content, LENGTH, 0)) > 0) {
++        fwrite(content, sizeof(char), filelen, fp);
++        if ((filelen == 0) || (filelen == LENGTH)) {
++            break;
++        }
++    }
++    fclose(fp);
++    close(res);
++    return SUCCESS;
++}
+Index: Filecopy_SOCK/server.c
+===================================================================
+--- Filecopy_SOCK/server.c	(nonexistent)
++++ Filecopy_SOCK/server.c	(working copy)
+@@ -0,0 +1,86 @@
++/**
++ * @file            : server.c
++ * @brief           : This program acts as a server and gets a filename as input
++ *                    and searches for the file in its system and copies the
++ *                    file to the client if the file is present or sends an
++ *                    error message that the file is not present
++ * @author          : Ranjith Kumar K V (ranjithkumatkv@vvdntech.in)
++ * @Copyright(c)    : 2018, VVDN Technologies Pvt. Ltd. Permission is
++ *                    hereby granted to everyone in VVDN Technologies to use
++ *                    the Software without restriction, including without
++ *                    limitation the rights to use, copy, modify, merge,
++ *                    publish, distribute, distribute with modifications.
++ */
++
++#include<stdio.h>
++#include<unistd.h>
++#include<sys/socket.h>
++#include<arpa/inet.h>
++#include<stdlib.h>
++#include<netinet/in.h>
++#include<string.h>
++
++#define SUCCESS 0
++#define PORT 8800
++#define FAILURE -1
++#define BUF_SIZE 10
++#define LENGTH 100
++
++int main()
++{
++    struct sockaddr_in server, client;
++    int res, client_fd, opt = 1, filelen, clientlen;
++    char filename[10], message[10], content[LENGTH];
++    FILE *fp;
++
++    /* Creating a socket */
++    if ((res = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
++        printf("Socket creation failed.\n");
++        exit(FAILURE);
++    }
++    if (setsockopt(res, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, \
++                sizeof(opt))) {
++        perror("Setsockopt falied.\n");
++        exit(FAILURE);
++    }
++    server.sin_family = AF_INET;
++    server.sin_port = PORT;
++    server.sin_addr.s_addr = INADDR_ANY;
++    /* Binding the socket with domain, ip, port */
++    if (bind(res, (struct sockaddr*)&server, sizeof(server)) < 0) {
++        perror("Bind of socket failed.\n");
++        exit(FAILURE);
++    }
++    /* Creating the listening queue to the server */
++    if (listen(res, 1) < 0) {
++        perror("Listen falied.\n");
++        exit(FAILURE);
++    }
++    clientlen = sizeof(client);
++    /* Accepting the client connection */
++    if ((client_fd = accept(res, (struct sockaddr*)&client, \
++                (socklen_t*)&clientlen)) < 0) {
++        perror("Accept failed.\n");
++        exit(FAILURE);
++    }
++    /* Reading the filename from the client */
++    read(client_fd, filename, BUF_SIZE);
++    /* Checking if the file is present */
++    if ((fp = fopen(filename, "r")) == NULL) {
++        strcpy(message, "NO");
++        sleep(1);
++        write(client_fd, message, strlen(message));
++        exit(FAILURE);
++    }
++    /* Sending the contents of the file to the client */
++    while ((filelen = fread(content, sizeof(char), LENGTH,fp)) > 0) {
++        if (send(client_fd, content, filelen, 0) < 0) {
++            perror("Send failed.\n");
++            exit(FAILURE);
++        }
++        memset(content, '\0', LENGTH);
++    }
++    fclose(fp);
++    close(client_fd);
++    return SUCCESS;
++}
