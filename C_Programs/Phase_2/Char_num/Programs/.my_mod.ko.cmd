@@ -1,1 +1,0 @@
-cmd_/home/vvdn/git/C_Programs/Phase_2/Char_num/Programs/my_mod.ko := ld -r -m elf_x86_64 -z max-page-size=0x200000 -T ./scripts/module-common.lds --build-id  -o /home/vvdn/git/C_Programs/Phase_2/Char_num/Programs/my_mod.ko /home/vvdn/git/C_Programs/Phase_2/Char_num/Programs/my_mod.o /home/vvdn/git/C_Programs/Phase_2/Char_num/Programs/my_mod.mod.o ;  true
